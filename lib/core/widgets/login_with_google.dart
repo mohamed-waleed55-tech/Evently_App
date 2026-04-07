@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../resources/colors/colors_manager.dart';
-import '../../resources/images/images_manager.dart';
+import '../resources/colors/colors_manager.dart';
+import '../resources/images/images_manager.dart';
+
+
 
 class LoginWithGoogle extends StatelessWidget {
-  const LoginWithGoogle({super.key});
+  const LoginWithGoogle({super.key,required this.onClick,required this.title});
+  final VoidCallback onClick;
 
+  final String title;
   @override
   Widget build(BuildContext context) {
     return
       InkWell(
-        onTap: (){},
+        onTap: (){
+          onClick;
+        },
         child: Container(
           alignment: Alignment.center,
           width: double.infinity,
@@ -24,7 +30,7 @@ class LoginWithGoogle extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(ImagesManager.google),
-              Text(" Login With Google",style: Theme.of(context).textTheme.labelMedium,),
+              Text(title,style: Theme.of(context).textTheme.labelMedium,),
             ],
           ),
         ),

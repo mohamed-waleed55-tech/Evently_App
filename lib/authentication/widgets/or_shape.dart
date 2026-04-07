@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../resources/colors/colors_manager.dart';
+import '../../core/resources/colors/colors_manager.dart';
 
 class OrShape extends StatelessWidget {
   const OrShape({super.key});
@@ -12,7 +12,7 @@ class OrShape extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(child: Container(height: 1,color: ColorsManager.blue,margin: REdgeInsets.symmetric(horizontal: 16.w),)),
-        Text("or",style: Theme.of(context).textTheme.labelSmall,)
+        Text("or",style: Theme.of(context).textTheme.titleSmall?.copyWith(decoration: TextDecoration.none),)
         ,
         Expanded(child: Container(height: 1,color: ColorsManager.blue,margin: REdgeInsets.symmetric(horizontal: 16.w),))
       ],

@@ -25,10 +25,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+
       obscureText: widget.isSecure,
       decoration: InputDecoration(
+        labelStyle: Theme.of(context).textTheme.labelSmall,
         labelText: widget.label,
-        prefixIcon: Icon(Icons.lock),
+        prefixIcon: Icon(widget.prefixIcon),
         suffixIcon: IconButton(onPressed: widget.onClick, icon: Icon(widget.suffixIcon))
       ),
     );

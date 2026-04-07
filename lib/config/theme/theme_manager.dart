@@ -1,12 +1,18 @@
-import 'package:evently/resources/colors/colors_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../core/resources/colors/colors_manager.dart';
 
 class ThemeManager {
   static final ThemeData light = ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: ColorsManager.offWhite,
+      appBarTheme: AppBarThemeData(
+        backgroundColor: ColorsManager.offWhite,
+          centerTitle: true,
+        titleTextStyle: GoogleFonts.roboto(color: ColorsManager.blue,fontSize: 22.sp,fontWeight: FontWeight.normal)
+      ),
       textTheme: TextTheme(
         titleSmall: TextStyle(
           fontSize: 16.sp,
