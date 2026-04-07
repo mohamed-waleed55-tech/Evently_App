@@ -1,0 +1,76 @@
+import 'package:evently/resources/colors/colors_manager.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class ThemeManager {
+  static final ThemeData light = ThemeData(
+      useMaterial3: true,
+      scaffoldBackgroundColor: ColorsManager.offWhite,
+      textTheme: TextTheme(
+        titleSmall: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w700,
+          color: ColorsManager.blue,
+          decoration: TextDecoration.underline,
+          decorationColor: ColorsManager.blue
+        ),
+        labelSmall: GoogleFonts.inter(
+          color: ColorsManager.gray,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        titleMedium: TextStyle(color: ColorsManager.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 20),
+        labelMedium: TextStyle(color: ColorsManager.blue,
+            fontWeight: FontWeight.w600,
+            fontSize: 20)
+      ),
+      iconTheme: IconThemeData(color: ColorsManager.gray),
+      inputDecorationTheme: InputDecorationThemeData(
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(color: ColorsManager.gray),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(color: ColorsManager.gray),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(color: ColorsManager.red),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(color: ColorsManager.gray),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(color: ColorsManager.red),
+        ),
+        iconColor: ColorsManager.gray,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: ColorsManager.blue,
+              shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r)
+      ),
+      padding: REdgeInsets.symmetric(vertical: 16)
+  )
+
+  ,
+
+  )
+
+  ,
+
+  );
+
+  static final ThemeData dark = ThemeData();
+}
