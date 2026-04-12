@@ -8,7 +8,6 @@ final VoidCallback onClick;
   @override
   Widget build(BuildContext context) {
     return  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           text??"",

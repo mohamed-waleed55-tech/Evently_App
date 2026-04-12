@@ -10,4 +10,9 @@ class IconsManager{
   static  const String mapOutlined ="$base/map_outlined.svg";
   static  const String profileOutlined ="$base/profile_outlined.svg";
   static  const String profileFilled ="$base/profile_filled.svg";
+  static  const String all ="$base/all.svg";
+  static  const String sport ="$base/sport.svg";
+  static  const String food ="$base/food.svg";
+  static  const String book ="$base/book.svg";
+  static  const String edit ="$base/edit.svg";
 }

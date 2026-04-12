@@ -1,6 +1,7 @@
 import 'package:evently/authentication/forget_password/forget_password.dart';
 import 'package:evently/authentication/signIn/signIn.dart';
 import 'package:evently/main_layout/main_layout.dart';
+import 'package:evently/main_layout/screens/create_event/createEvent.dart';
 import 'package:evently/main_layout/tabs/home/home.dart';
 import 'package:evently/main_layout/tabs/love/love.dart';
 import 'package:evently/main_layout/tabs/profile/profile.dart';
@@ -18,6 +19,7 @@ class RoutesManager{
   static const String map="/map";
   static const String love="/love";
   static const String profile="/profile";
+  static const String createEvent="/createEvent";
   static Route? router (RouteSettings settings){
     switch(settings.name){
       case signIn:
@@ -36,6 +38,9 @@ class RoutesManager{
         return CupertinoPageRoute(builder: (context)=>Love());
       case profile:
         return CupertinoPageRoute(builder: (context)=>Profile());
+      case createEvent:
+        return CupertinoPageRoute(builder: (context)=>CreateEventScreen());
+
     }
   }
 

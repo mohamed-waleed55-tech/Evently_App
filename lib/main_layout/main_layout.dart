@@ -1,5 +1,6 @@
 import 'package:evently/core/resources/colors/colors_manager.dart';
 import 'package:evently/core/resources/icons/icons_manager.dart';
+import 'package:evently/core/resources/routes/routesManager.dart';
 import 'package:evently/main_layout/tabs/home/home.dart';
 import 'package:evently/main_layout/tabs/love/love.dart';
 import 'package:evently/main_layout/tabs/map/map.dart';
@@ -67,9 +68,11 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: (){
+          Navigator.pushNamed(context, RoutesManager.createEvent);        },
         child: SvgPicture.asset(IconsManager.add, semanticsLabel: "add"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

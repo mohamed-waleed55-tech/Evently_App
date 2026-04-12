@@ -37,7 +37,7 @@ class _SignInState extends State<SignIn> {
               Expanded(
                 flex: 4,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomTextFormField(
                       label: "Email",
@@ -53,17 +53,24 @@ class _SignInState extends State<SignIn> {
                       isSecure: secure,
                       onClick: _onClick,
                     ),
+                    Row(
+                      mainAxisAlignment:MainAxisAlignment.end ,
+                      children: [
+                         CustomTextButton(title: "Forget Password?",onClick: (){},),
 
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CustomTextButton(title: "Forget Password?",onClick: (){},),
+                      ],
                     ),
+
                     SizedBox(height: 24.h),
 
                     CustomElevatedButton(title: "Sign-In", onClick: () {}),
                     SizedBox(height: 24.h),
 
-                    CustomTextButton(title: "Create Account",text: "Don’t Have Account ? ",onClick: (){},),
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                     CustomTextButton(title: "Create Account",text: "Don’t Have Account ? ",onClick: (){},),
+
+            ],),
                     OrShape(),
                     SizedBox(height: 24.h),
                     LoginWithGoogle(
