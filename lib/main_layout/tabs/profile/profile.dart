@@ -4,7 +4,6 @@ import 'package:evently/core/resources/images/images_manager.dart';
 import 'package:evently/core/resources/routes/routes_manager.dart';
 import 'package:evently/core/utils/dialog.dart';
 import 'package:evently/providers/config_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -192,11 +191,11 @@ class _ProfileState extends State<Profile> {
       posAction: () async{
         await AuthService.logout();
 
+
         Navigator.pushReplacementNamed(context, RoutesManager.signIn);
       },
         title: "Logout",
       negActionTitle: "Cancel",
-      negAction: (){}
     );
   }
 }

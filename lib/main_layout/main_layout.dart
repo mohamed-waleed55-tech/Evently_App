@@ -74,6 +74,8 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       extendBody: true,
       floatingActionButton: FloatingActionButton(

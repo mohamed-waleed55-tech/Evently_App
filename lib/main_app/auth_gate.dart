@@ -6,7 +6,6 @@ import '../DM/userDM.dart';
 import '../authentication/signIn/signIn.dart';
 import '../firebase_service/firestore/firestore_service.dart';
 import '../main_layout/main_layout.dart';
-
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
@@ -14,28 +13,36 @@ class AuthGate extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+      builder: (context, authSnapshot) {
+
+
+        if (authSnapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (!snapshot.hasData) {
+        if (!authSnapshot.hasData) {
+
           return SignIn();
-      }
-        final uid = snapshot.data!.uid;
+        }
+
+        final uid = authSnapshot.data!.uid;
 
         return FutureBuilder<UserDM?>(
           future: FirestoreService.getUserFromFirestore(uid),
           builder: (context, userSnapshot) {
+
             if (userSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
 
             if (userSnapshot.hasError) {
-              return  SignIn();
+              return const Center(child: Text("Something went wrong"));
             }
+            if (!userSnapshot.hasData || userSnapshot.data == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            UserDM.currentUser = userSnapshot.data!;
 
-            UserDM.currentUser = userSnapshot.data;
             return const MainLayout();
           },
         );

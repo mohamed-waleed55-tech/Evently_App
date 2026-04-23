@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../DM/userDM.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 class AuthService {
   static Future<String?> register(
     String email,
@@ -96,49 +95,52 @@ class AuthService {
   }
 
   static Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
-
     UserDM.currentUser = null;
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+
+
   }
-  // static Future<UserCredential?> signInWithGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount? googleUser =
-  //     await GoogleSignIn().signIn();
-  //
-  //     if (googleUser == null) return null;
-  //
-  //     final GoogleSignInAuthentication googleAuth =
-  //     await googleUser.authentication;
-  //
-  //     final credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
-  //
-  //     UserCredential userCredential =
-  //     await FirebaseAuth.instance.signInWithCredential(credential);
-  //
-  //     User? user = userCredential.user;
-  //
-  //     if (user != null) {try {
-  //       await FirebaseFirestore.instance
-  //           .collection("users")
-  //           .doc(user.uid)
-  //           .set({
-  //         "id": user.uid,
-  //         "name": user.displayName ?? "",
-  //         "email": user.email ?? "",
-  //       }, SetOptions(merge: true));
-  //     } catch (e) {
-  //       print("Firestore write error: $e");
-  //     }
-  //     }
-  //
-  //     return userCredential;
-  //
-  //   } catch (e) {
-  //     print("Google sign-in error: $e");
-  //     return null;
-  //   }
-  // }
+
+  static Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) return null;
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        try {
+          await FirebaseFirestore.instance
+              .collection("users")
+              .doc(user.uid)
+              .set({
+                "id": user.uid,
+                "name": user.displayName ?? "",
+                "email": user.email ?? "",
+                "favouriteEventsIds": [],
+              }, SetOptions(merge: true));
+        } catch (e) {
+          print("Firestore write error: $e");
+        }
+      }
+
+      return userCredential;
+    } catch (e) {
+      print("Google sign-in error: $e");
+      return null;
+    }
+  }
 }

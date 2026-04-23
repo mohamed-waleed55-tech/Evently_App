@@ -67,11 +67,11 @@ class ThemeManager {
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
-        borderSide: BorderSide(color: ColorsManager.gray),
+        borderSide: BorderSide(color: ColorsManager.blue, width: 2),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
-        borderSide: BorderSide(color: ColorsManager.gray),
+        borderSide: BorderSide(color: ColorsManager.blue),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
@@ -83,14 +83,15 @@ class ThemeManager {
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
-        borderSide: BorderSide(color: ColorsManager.gray),
+        borderSide: BorderSide(color: ColorsManager.blue),
       ),
 
-      labelStyle: TextStyle(color: ColorsManager.gray),
-      hintStyle: TextStyle(color: ColorsManager.gray),
+      labelStyle: TextStyle(color: ColorsManager.blue),
+      hintStyle: TextStyle(color: ColorsManager.blue),
 
-      prefixIconColor: ColorsManager.gray,
-      suffixIconColor: ColorsManager.gray,
+
+      prefixIconColor: ColorsManager.blue,
+      suffixIconColor: ColorsManager.blue,
     ),
     textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom()),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -195,11 +196,11 @@ class ThemeManager {
 
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
-        borderSide: BorderSide(color: ColorsManager.blue),
+        borderSide: BorderSide(color: ColorsManager.blue, width: 2),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
-        borderSide: BorderSide(color: ColorsManager.gray),
+        borderSide: BorderSide(color: ColorsManager.blue),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
@@ -207,14 +208,14 @@ class ThemeManager {
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16.r),
-        borderSide: BorderSide(color: ColorsManager.red),
+        borderSide: BorderSide(color: ColorsManager.blue),
       ),
 
-      labelStyle: TextStyle(color: ColorsManager.gray),
-      hintStyle: TextStyle(color: ColorsManager.gray),
+      labelStyle: TextStyle(color: ColorsManager.blue),
+      hintStyle: TextStyle(color: ColorsManager.blue),
 
-      prefixIconColor: ColorsManager.gray,
-      suffixIconColor: ColorsManager.gray,
+      prefixIconColor: ColorsManager.blue,
+      suffixIconColor: ColorsManager.blue,
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(

@@ -9,6 +9,7 @@
   "create_account": "Create Account",
   "or": "Or",
   "login_with_google": " Login With Google",
+  "login_with_facebook": " Login With Facebook",
   "register": "Register",
   "name": "Name",
   "re_password": "Re-Password",

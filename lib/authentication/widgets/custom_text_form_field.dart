@@ -12,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
   this.hint,
     this.controller,
     this.validator,
+    this.onChange,
   });
 
   final String? label;
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatefulWidget {
   IconData? suffixIcon;
   bool isSecure;
   VoidCallback? onClick;
+  final Function(String)? onChange;
   final String? Function(String?)? validator;
   final TextEditingController?controller;
 
@@ -33,6 +35,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged:
+        widget.onChange
+      ,
       validator: (input){
         if(widget.validator!=null){
           return widget.validator!(input);

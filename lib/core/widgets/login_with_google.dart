@@ -6,8 +6,8 @@ import '../resources/images/images_manager.dart';
 
 
 
-class LoginWithGoogle extends StatelessWidget {
-  const LoginWithGoogle({super.key,required this.onClick,required this.title});
+class LoginWithProviders extends StatelessWidget {
+  const LoginWithProviders({super.key,required this.onClick,required this.title});
   final VoidCallback onClick;
 
   final String title;

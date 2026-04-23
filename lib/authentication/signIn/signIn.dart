@@ -127,10 +127,11 @@ class _SignInState extends State<SignIn> {
                       ),
                       OrShape(),
                       SizedBox(height: 24.h),
-                      LoginWithGoogle(
+                      LoginWithProviders(
                         title: AppLocalizations.of(context)!.login_with_google,
-                        onClick: () {},
+                        onClick: loginWithGoogle,
                       ),
+
                     ],
                   ),
                 ),
@@ -207,24 +208,22 @@ class _SignInState extends State<SignIn> {
     });
   }
 
-// void loginWithGoogle() async {
-//   UserCredential? userCredential =
-//   await AuthService.signInWithGoogle();
-//
-//   if (!mounted) return;
-//
-//   if (userCredential == null) {
-//     DialogUtils.showMessage(
-//       context,
-//       title: "Error",
-//       message: "Login failed",
-//     );
-//     return;
-//   }
-//
-//   Navigator.pushReplacementNamed(
-//     context,
-//     RoutesManager.mainLayout,
-//   );
-// }
+void loginWithGoogle() async {
+  UserCredential? userCredential =
+  await AuthService.signInWithGoogle();
+
+  if (!mounted) return;
+
+  if (userCredential == null) {
+    DialogUtils.showMessage(
+      context,
+      title: "Error",
+      message: "Login failed",
+    );
+    return;
+  }
+
+}
+
+
 }

@@ -31,7 +31,7 @@ class _EventCardState extends State<EventCard> {
     return Container(
       height: 205.h,
       width: 362.w,
-      padding: REdgeInsets.all(12),
+      padding: REdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: ColorsManager.blue, width: 2),
