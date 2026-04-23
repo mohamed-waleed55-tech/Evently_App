@@ -12,7 +12,7 @@ class OrShape extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(child: Container(height: 1,color: ColorsManager.blue,margin: REdgeInsets.symmetric(horizontal: 16.w),)),
-        Text("or",style: Theme.of(context).textTheme.titleSmall?.copyWith(decoration: TextDecoration.none),)
+        Text("or",style: Theme.of(context).textTheme.labelSmall,)
         ,
         Expanded(child: Container(height: 1,color: ColorsManager.blue,margin: REdgeInsets.symmetric(horizontal: 16.w),))
       ],

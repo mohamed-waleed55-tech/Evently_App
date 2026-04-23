@@ -10,7 +10,9 @@ class CustomElevatedButton extends StatelessWidget {
     return  SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: (){
+          onClick();
+        },
         child: Text(
           title,
           style: Theme.of(context).textTheme.titleMedium,

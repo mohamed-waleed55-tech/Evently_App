@@ -9,7 +9,9 @@ class CustomTextFormField extends StatefulWidget {
     this.suffixIcon,
     this.isSecure = false,
     this.onClick,
-  this.hint
+  this.hint,
+    this.controller,
+    this.validator,
   });
 
   final String? label;
@@ -19,6 +21,8 @@ class CustomTextFormField extends StatefulWidget {
   IconData? suffixIcon;
   bool isSecure;
   VoidCallback? onClick;
+  final String? Function(String?)? validator;
+  final TextEditingController?controller;
 
 
   @override
@@ -29,6 +33,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: (input){
+        if(widget.validator!=null){
+          return widget.validator!(input);
+        }
+
+      },
+      controller: widget.controller,
       style: Theme.of(context).textTheme.bodyLarge,
       obscureText: widget.isSecure,
       maxLines: widget.lines,

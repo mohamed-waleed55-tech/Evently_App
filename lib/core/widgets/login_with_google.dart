@@ -16,7 +16,7 @@ class LoginWithGoogle extends StatelessWidget {
     return
       InkWell(
         onTap: (){
-          onClick;
+          onClick();
         },
         child: Container(
           alignment: Alignment.center,

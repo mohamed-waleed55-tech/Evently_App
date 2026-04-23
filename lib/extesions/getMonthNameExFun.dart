@@ -5,5 +5,10 @@ extension  FormateDate on DateTime{
     DateFormat formattedDate=DateFormat("MMMM");
     return formattedDate.format(this);
   }
+  String get toFormattedDate{
+    DateFormat formattedDate=DateFormat("dd / MM / yyyy ");
+    return formattedDate.format(this);
+
+  }
 
 }

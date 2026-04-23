@@ -1,4 +1,4 @@
-class IconsManager{
+abstract final class IconsManager{
 
   static  const String base ="lib/assets/icons";
   static  const String add ="$base/add.svg";
