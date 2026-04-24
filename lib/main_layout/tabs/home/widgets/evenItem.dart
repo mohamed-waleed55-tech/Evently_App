@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../../DM/eventDM.dart';
+import '../../../../core/resources/routes/routes_manager.dart';
 import '../../../../providers/config_provider.dart';
 
 class EventCard extends StatefulWidget {
@@ -28,106 +29,115 @@ class _EventCardState extends State<EventCard> {
   Widget build(BuildContext context) {
     configProvider = Provider.of<ConfigProvider>(context);
 
-    return Container(
-      height: 205.h,
-      width: 362.w,
-      padding: REdgeInsets.symmetric(vertical: 16, horizontal: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: ColorsManager.blue, width: 2),
-        image: DecorationImage(
-          image: AssetImage(getCategoryImgPath(widget.event.category)),
-          fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        print(widget.event.title);
+        print(widget.event.description);
+        print(widget.event.category);
+        print(widget.event.imagePath);
+        print(widget.event.dateTime);
+        print(widget.event.lat);
+        print(widget.event.lng);
+        Navigator.pushNamed(
+          context,
+          RoutesManager.eventDetails,
+          arguments: widget.event, // or a Map
+        );
+      },
+      child: Container(
+        height: 205.h,
+        width: 362.w,
+        padding: REdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(color: ColorsManager.blue, width: 2),
+          image: DecorationImage(
+            image: AssetImage(getCategoryImgPath(widget.event.category)),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-      Container(
-      padding: REdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            widget.event.dateTime.day.toString(),
-            style: Theme
-                .of(context)
-                .textTheme
-                .labelMedium
-                ?.copyWith(
-              color: ColorsManager.blue,
-              fontWeight: FontWeight.w700,
+            Container(
+              padding: REdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.event.dateTime.day.toString(),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: ColorsManager.blue,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Text(
+                    widget.event.dateTime.getMonth.substring(0, 3),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: ColorsManager.blue),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Text(
-            widget.event.dateTime.getMonth.substring(0, 3),
-            style: Theme
-                .of(
-              context,
-            )
-                .textTheme
-                .bodySmall
-                ?.copyWith(color: ColorsManager.blue),
-          ),
-        ],
-      ),
-    ),
 
-    Container(
-    padding: REdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    decoration: BoxDecoration(
-    color: Colors.white.withValues(alpha: 0.9),
-    borderRadius: BorderRadius.circular(10.r),
-    ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              widget.event.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: ColorsManager.black),
+            Container(
+              padding: REdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.9),
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.event.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: ColorsManager.black,
+                      ),
+                    ),
+                  ),
+
+                  StreamBuilder<List<String>>(
+                    stream: FirebaseAuth.instance.currentUser?.uid == null
+                        ? const Stream.empty()
+                        : FirestoreService.getFavStreamIds(
+                            FirebaseAuth.instance.currentUser!.uid,
+                          ),
+                    builder: (context, snapshot) {
+                      final favList = snapshot.data ?? [];
+
+                      final isFav = favList.contains(widget.event.id);
+
+                      return IconButton(
+                        onPressed:
+                            FirebaseAuth.instance.currentUser?.uid == null
+                            ? null
+                            : () async {
+                                await FirestoreService.toggleFavorite(
+                                  widget.event.id,
+                                );
+                              },
+                        icon: Icon(
+                          isFav ? Icons.favorite : Icons.favorite_border,
+                          color: ColorsManager.blue,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-
-          StreamBuilder<List<String>>(
-            stream: FirebaseAuth.instance.currentUser?.uid == null
-                ? const Stream.empty()
-                : FirestoreService.getFavStreamIds(
-              FirebaseAuth.instance.currentUser!.uid,
-            ),
-            builder: (context, snapshot) {
-              final favList = snapshot.data ?? [];
-
-              final isFav = favList.contains(widget.event.id);
-
-              return IconButton(
-                onPressed: FirebaseAuth.instance.currentUser?.uid == null
-                    ? null
-                    : () async {
-                  await FirestoreService.toggleFavorite(widget.event.id);
-                },
-                icon: Icon(
-                  isFav ? Icons.favorite : Icons.favorite_border,
-                  color: ColorsManager.blue,
-                ),
-              );
-            },
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-    ],
-    )
-    ,
     );
   }
 

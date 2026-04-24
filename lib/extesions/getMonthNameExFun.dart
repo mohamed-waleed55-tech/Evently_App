@@ -11,4 +11,11 @@ extension  FormateDate on DateTime{
 
   }
 
+  String get date {
+    return DateFormat('d MMMM yyyy').format(this);
+  }
+
+  String get time {
+    return DateFormat('hh:mm a').format(this);
+  }
 }

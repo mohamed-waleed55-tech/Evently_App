@@ -1,37 +1,35 @@
-import 'package:evently/DM/CategoryDM.dart';
-import 'package:evently/DM/eventDM.dart';
-import 'package:evently/authentication/widgets/custom_elevated_button.dart';
-import 'package:evently/authentication/widgets/custom_text_form_field.dart';
-import 'package:evently/core/utils/dialog.dart';
-import 'package:evently/extesions/getMonthNameExFun.dart';
-import 'package:evently/firebase_service/firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../DM/userDM.dart';
+import '../../../DM/CategoryDM.dart';
+import '../../../DM/eventDM.dart';
+import '../../../authentication/widgets/custom_elevated_button.dart';
 import '../../../authentication/widgets/custom_text_button.dart';
+import '../../../authentication/widgets/custom_text_form_field.dart';
 import '../../../core/app_validators/app_validators.dart';
 import '../../../core/resources/colors/colors_manager.dart';
 import '../../../core/resources/constant_data/constant_data.dart';
 import '../../../core/resources/routes/routes_manager.dart';
+import '../../../extesions/getMonthNameExFun.dart';
+import '../../../firebase_service/firestore/firestore_service.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/config_provider.dart';
 import '../../tabs/home/widgets/tab_item.dart';
 
-class CreateEventScreen extends StatefulWidget {
-  const CreateEventScreen({super.key});
+class UpdateEvent extends StatefulWidget {
+  const UpdateEvent({super.key, required this.event});
+
+  final EventDM event;
 
   @override
-  State<CreateEventScreen> createState() => _CreateEventScreenState();
+  State<UpdateEvent> createState() => _UpdateEventState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
+class _UpdateEventState extends State<UpdateEvent> {
   int selectedIndex = 0;
   late TextEditingController titleController;
-
   late TextEditingController descController;
-
   late CategoryDM selectedCategory;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -45,10 +43,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final categories = ConstantManager.getCategories(context);
+    final current = widget.event;
+
+    titleController.text = current.title;
+    descController.text = current.description;
+    selectedDate = current.dateTime;
+    selectedTime = TimeOfDay.fromDateTime(current.dateTime);
+
+    final index = categories.indexWhere((c) => c.id == current.category);
+    selectedIndex = index == -1 ? 0 : index;
+    selectedCategory = categories[selectedIndex];
+  }
+
+  @override
   void dispose() {
-    super.dispose();
     titleController.dispose();
     descController.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,15 +77,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: ColorsManager.blue),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: Text(
-          loc.createEvent,
+          "Update Event",
           style: Theme.of(context).textTheme.labelMedium,
         ),
       ),
@@ -90,9 +103,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       : selectedCategory.darkImgPath,
                 ),
               ),
-
               const SizedBox(height: 20),
-
               SizedBox(
                 height: 40,
                 child: ListView.builder(
@@ -100,7 +111,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
                     final category = categories[index];
-
                     return Padding(
                       padding: EdgeInsets.only(right: 8.w),
                       child: CustomTabItem(
@@ -110,42 +120,33 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         selectedContentColor: ColorsManager.offWhite,
                         unselectedContentColor: ColorsManager.blue,
                         unselectedBorderColor: ColorsManager.blue,
-                        onTap: () {
-                          setState(() {
-                            selectedIndex = index;
-                          });
-                        },
+                        onTap: () => setState(() => selectedIndex = index),
                       ),
                     );
                   },
                 ),
               ),
-
               SizedBox(height: 16.h),
               Text(loc.title, style: Theme.of(context).textTheme.labelSmall),
               SizedBox(height: 8.h),
-
               CustomTextFormField(
                 validator: AppValidators.validateTitle,
                 hint: loc.eventTitle,
                 prefixIcon: Icons.edit,
                 controller: titleController,
               ),
-
               SizedBox(height: 8.h),
               Text(
                 loc.description,
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               SizedBox(height: 8.h),
-
               CustomTextFormField(
                 validator: AppValidators.validateDescription,
                 hint: loc.eventDesc,
                 lines: 4,
                 controller: descController,
               ),
-
               const SizedBox(height: 20),
               Row(
                 children: [
@@ -177,42 +178,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                 ],
               ),
-
-              const SizedBox(height: 20),
-
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.indigo),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.location_on, color: Colors.white),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        loc.chooseEventLocation,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium?.copyWith(fontSize: 16),
-                      ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios, size: 16),
-                  ],
-                ),
-              ),
-
               const SizedBox(height: 30),
-
-              CustomElevatedButton(title: loc.addEvent, onClick: createEvent),
+              CustomElevatedButton(title: "Update Event", onClick: updateEvent),
             ],
           ),
         ),
@@ -220,11 +187,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     );
   }
 
-  void _selectEventTime() async {
+  Future<void> _selectEventTime() async {
     selectedTime =
         await showTimePicker(
           context: context,
-          initialTime: TimeOfDay.now(),
+          initialTime: selectedTime,
           builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(
@@ -238,48 +205,40 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     setState(() {});
   }
 
-  void createEvent() {
-    if (!formKey.currentState!.validate()) {
-      return;
-    }
-    selectedDate = selectedDate.copyWith(
-      hour: selectedTime.hour,
-      minute: selectedTime.minute,
-    );
-    EventDM event = EventDM(
-      title: titleController.text,
-      description: descController.text,
-      category: selectedCategory.id,
-      imagePath: "  ",
-      dateTime: selectedDate,
-      lat: 22,
-      lng: 55,
-      createdById: UserDM.currentUser!.id,
-    );
-    DialogUtils.showMessage(
-      context,
-      message: "Adding event",
-      posActionTitle: "OK",
-      posAction: () {
-        FirestoreService.addEvent(event);
-        formKey.currentState!.reset();
-        if (!mounted) return;
-        Navigator.pushNamed(context, RoutesManager.mainLayout);
-        DialogUtils.showMessage(context, message: "Event added successfully",posActionTitle: "OK");
-      },
-      negActionTitle: "Cancel",
-      negAction: () {},
-    );
-  }
-
-  void _selectEventDate() async {
+  Future<void> _selectEventDate() async {
     selectedDate =
         await showDatePicker(
           context: context,
-          firstDate: DateTime.now(),
-          lastDate: DateTime.now().add(Duration(days: 365)),
+          initialDate: selectedDate,
+          firstDate: DateTime.now().subtract(const Duration(days: 3650)),
+          lastDate: DateTime.now().add(const Duration(days: 3650)),
         ) ??
         selectedDate;
     setState(() {});
+  }
+
+  Future<void> updateEvent() async {
+    if (!formKey.currentState!.validate()) return;
+
+    final dateTime = selectedDate.copyWith(
+      hour: selectedTime.hour,
+      minute: selectedTime.minute,
+    );
+
+    final updatedEvent = EventDM(
+      id: widget.event.id,
+      title: titleController.text.trim(),
+      description: descController.text.trim(),
+      category: selectedCategory.id,
+      imagePath: widget.event.imagePath,
+      dateTime: dateTime,
+      lat: widget.event.lat,
+      lng: widget.event.lng,
+      createdById: widget.event.createdById,
+    );
+
+    await FirestoreService.updateEvent(updatedEvent);
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, RoutesManager.eventDetails, arguments: updatedEvent);
   }
 }

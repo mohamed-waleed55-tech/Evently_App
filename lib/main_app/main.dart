@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
+import '../providers/location_map.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ConfigProvider()),
+        ChangeNotifierProvider(create: (_) => LocationMapProvider()),
+      ],
+      child: const EventlyApp(),
+    ),
   );
-  runApp(
-  ChangeNotifierProvider(
-     child: const EventlyApp(),
-    create: (context)=>ConfigProvider(),
-  ));
 
 }

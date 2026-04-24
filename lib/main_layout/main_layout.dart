@@ -73,31 +73,41 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
 
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      extendBody: true,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RoutesManager.createEvent);
-        },
-        child: SvgPicture.asset(IconsManager.add, semanticsLabel: "add"),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        notchMargin: 8,
-        child: BottomNavigationBar(
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        if (currentIndex != 0) {
+          setState(() => currentIndex = 0);
+          return;
+        }
+        Navigator.of(context).maybePop();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        extendBody: true,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, RoutesManager.createEvent);
           },
-          currentIndex: currentIndex,
-          items: getItems(context),
+          child: SvgPicture.asset(IconsManager.add, semanticsLabel: "add"),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          notchMargin: 8,
+          child: BottomNavigationBar(
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            currentIndex: currentIndex,
+            items: getItems(context),
+          ),
+        ),
+        body: tabs[currentIndex],
       ),
-      body: tabs[currentIndex],
     );
   }
 }

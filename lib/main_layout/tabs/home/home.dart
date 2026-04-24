@@ -1,6 +1,7 @@
 import 'package:evently/DM/eventDM.dart';
 import 'package:evently/DM/userDM.dart';
 import 'package:evently/core/resources/colors/colors_manager.dart';
+import 'package:evently/core/widgets/buildLoadingCard.dart';
 import 'package:evently/firebase_service/firestore/firestore_service.dart';
 import 'package:evently/main_layout/tabs/home/widgets/evenItem.dart';
 import 'package:evently/main_layout/tabs/home/widgets/tab_item.dart';
@@ -154,46 +155,47 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          StreamBuilder(
-            stream: FirestoreService.getEventsStream(categoriesWithAll[selectedCategoryIndex].id),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Expanded(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
+          Expanded(
+            child: StreamBuilder<List<EventDM>>(
+              stream: FirestoreService.getEventsStream(
+                categoriesWithAll[selectedCategoryIndex].id,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                 return Center(child: CircularProgressIndicator(),);
+                }
 
-              if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              }
+                if (snapshot.hasError) {
+                  return Center(child: Text(snapshot.error.toString()));
+                }
 
-              final events = snapshot.data ?? [];
-              if (events.isEmpty) {
-                return Expanded(
-                  child: Center(
-                    child: Text("No events found",style: Theme.of(context).textTheme.labelMedium,),
-                  ),
-                );
-              }
+                final events = snapshot.data ?? [];
+                if (events.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "No events found",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  );
+                }
 
-              return Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.all(12),
+                return ListView.builder(
+                  padding: const EdgeInsets.all(12),
                   itemCount: events.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: EventCard(event: events[index]),
-                    );
-                  },
-                ),
-              );
-            },
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: EventCard(event: events[index]),
+                  ),
+                );
+              },
+            ),
           ),
+
         ],
       ),
     );
   }
+
+
+
 }

@@ -9,6 +9,7 @@ class EventDM {
   final DateTime dateTime;
   final double? lat;
   final double? lng;
+  final String createdById;
 
   EventDM({
     required this.title,
@@ -18,7 +19,8 @@ class EventDM {
     required this.dateTime,
     this.lat,
     this.lng,
-    this.id="",
+    this.id = "",
+    this.createdById = "",
   });
 
   Map<String, dynamic> toJson() {
@@ -31,6 +33,7 @@ class EventDM {
       "dateTime": Timestamp.fromDate(dateTime),
       "lat": lat,
       "lng": lng,
+      "createdById": createdById,
     };
   }
 
@@ -44,6 +47,7 @@ class EventDM {
       dateTime: (json["dateTime"] as Timestamp).toDate(),
       lat: json["lat"],
       lng: json["lng"],
+      createdById: json["createdById"],
     );
   }
 }

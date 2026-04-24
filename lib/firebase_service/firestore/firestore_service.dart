@@ -122,6 +122,15 @@ class FirestoreService {
       print("Error adding event to favourites: $e");
     }
   }
+  static Future<void> updateEvent(EventDM event) async {
+    try {
+      final eventsCollection = getEventsCollection();
+      await eventsCollection.doc(event.id).update(event.toJson());
+    } catch (e) {
+      print("Error updating event: $e");
+    }
+  }
+
 
   static Future<void> removeEventFromFav(String eventId) async {
     try {
@@ -183,5 +192,13 @@ class FirestoreService {
 
           return events;
         });
+  }
+  static Future<void> deleteEvent(String eventId) async {
+    try {
+      final eventsCollection = getEventsCollection();
+      await eventsCollection.doc(eventId).delete();
+    } catch (e) {
+      print("Error deleting event: $e");
+    }
   }
 }

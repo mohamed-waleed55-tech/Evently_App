@@ -1,3 +1,4 @@
+import 'package:evently/DM/eventDM.dart';
 import 'package:evently/authentication/forget_password/forget_password.dart';
 import 'package:evently/authentication/signIn/signIn.dart';
 import 'package:evently/main_layout/main_layout.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../authentication/signUp/sign_up.dart';
 import '../../../main_app/auth_gate.dart';
+import '../../../main_layout/screens/details/event_details.dart';
+import '../../../main_layout/screens/update_event/update_event.dart';
 import '../../../main_layout/tabs/map/map.dart';
 
 abstract final class RoutesManager {
@@ -24,6 +27,8 @@ abstract final class RoutesManager {
   static const String onboarding = "/onboarding";
   static const String createEvent = "/createEvent";
   static const String authGate = "/authGate";
+  static const String eventDetails = "/eventDetails";
+  static const String updateEvent = "/updateEvent";
 
   static Route? router(RouteSettings settings) {
     switch (settings.name) {
@@ -37,9 +42,7 @@ abstract final class RoutesManager {
         return CupertinoPageRoute(builder: (context) => MainLayout());
       case home:
         return CupertinoPageRoute(builder: (context) => Home());
-      case map:
-        return CupertinoPageRoute(builder: (context) => GoogleMap());
-      case love:
+       case love:
         return CupertinoPageRoute(builder: (context) => Love());
       case profile:
         return CupertinoPageRoute(builder: (context) => Profile());
@@ -50,6 +53,20 @@ abstract final class RoutesManager {
 
       case authGate:
         return CupertinoPageRoute(builder: (context) => AuthGate());
+        case map:
+          return CupertinoPageRoute(builder: (context) => GoogleMap());
+      case eventDetails:
+        final event = settings.arguments as EventDM;
+        return CupertinoPageRoute(
+          builder: (context) => EventDetails(event: event),
+        );
+      case updateEvent:
+        final event = settings.arguments as EventDM;
+        return CupertinoPageRoute(
+          builder: (context) => UpdateEvent(event: event),
+        );
+      default:
+        return null;
     }
     return null;
   }

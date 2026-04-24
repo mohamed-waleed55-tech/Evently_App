@@ -46,6 +46,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: REdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Form(
@@ -154,10 +155,12 @@ class _SignInState extends State<SignIn> {
     );
 
     if (!mounted) return;
+
     DialogUtils.hideDialog(context);
 
-    if (result != null) {
-      switch (result) {
+    if (result != null) {    DialogUtils.hideDialog(context);
+
+    switch (result) {
         case 'invalid-credential':
           DialogUtils.showMessage(
             context,

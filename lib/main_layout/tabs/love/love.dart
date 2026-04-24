@@ -1,9 +1,11 @@
 import 'package:evently/authentication/widgets/custom_text_form_field.dart';
+import 'package:evently/core/resources/colors/colors_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../DM/eventDM.dart';
 import '../../../DM/userDM.dart';
+import '../../../core/widgets/buildLoadingCard.dart';
 import '../../../firebase_service/firestore/firestore_service.dart';
 import '../home/widgets/evenItem.dart';
 
@@ -19,31 +21,33 @@ class _LoveState extends State<Love> {
   List<EventDM> filteredEvents = [];
   String searchQuery = "";
 
-
   @override
   Widget build(BuildContext context) {
     if (UserDM.currentUser == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
 
-
       appBar: AppBar(
         title: const Text("Favourite Events"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: ColorsManager.blue),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Padding(
-            padding:  REdgeInsets.only(top: 16.0,left: 16,right: 16),
+            padding: REdgeInsets.only(top: 16.0, left: 16, right: 16),
             child: CustomTextFormField(
               prefixIcon: Icons.search,
               label: "Search",
-              onChange: (query){
+              onChange: (query) {
                 searchEvent(query);
               },
             ),
@@ -56,18 +60,18 @@ class _LoveState extends State<Love> {
                 UserDM.currentUser!.id,
               ),
               builder: (context, snapshot) {
-                if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
                 }
                 events = snapshot.data ?? [];
 
                 filteredEvents = searchQuery.isEmpty
                     ? List.from(events)
                     : events
-                    .where((e) =>
-                    e.title.toLowerCase().contains(searchQuery))
-                    .toList();
+                          .where(
+                            (e) => e.title.toLowerCase().contains(searchQuery),
+                          )
+                          .toList();
 
                 if (filteredEvents.isEmpty) {
                   return Center(
@@ -104,9 +108,7 @@ class _LoveState extends State<Love> {
     });
     setState(() {
       filteredEvents = events.where((event) {
-        return event.title
-            .toLowerCase()
-            .contains(query.toLowerCase());
+        return event.title.toLowerCase().contains(query.toLowerCase());
       }).toList();
     });
   }

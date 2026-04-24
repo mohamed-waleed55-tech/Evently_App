@@ -28,5 +28,6 @@ abstract final  class ImagesManager {
   static const String lMeeting="$base/lmeeting.png";
   static const String lSport="$base/lsport.png";
   static const String lWork="$base/lWork.png";
+  static const String map="$base/map.png";
 
 }
