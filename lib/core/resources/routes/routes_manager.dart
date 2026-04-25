@@ -14,6 +14,7 @@ import '../../../main_app/auth_gate.dart';
 import '../../../main_layout/screens/details/event_details.dart';
 import '../../../main_layout/screens/update_event/update_event.dart';
 import '../../../main_layout/tabs/map/map.dart';
+import '../../../main_layout/tabs/map/pick_location.dart';
 
 abstract final class RoutesManager {
   static const String signIn = "/signIn";
@@ -29,6 +30,8 @@ abstract final class RoutesManager {
   static const String authGate = "/authGate";
   static const String eventDetails = "/eventDetails";
   static const String updateEvent = "/updateEvent";
+  static const String pickLocation = "/pickLocation";
+
 
   static Route? router(RouteSettings settings) {
     switch (settings.name) {
@@ -65,6 +68,8 @@ abstract final class RoutesManager {
         return CupertinoPageRoute(
           builder: (context) => UpdateEvent(event: event),
         );
+      case pickLocation:
+        return CupertinoPageRoute(builder: (context) => PickLocation());
       default:
         return null;
     }

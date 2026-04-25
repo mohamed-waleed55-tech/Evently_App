@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/resources/images/images_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPreview extends StatelessWidget {
-  const MapPreview({super.key});
+  const MapPreview({
+    super.key,
+    required this.lat,
+    required this.lng,
+  });
+
+  final double lat;
+  final double lng;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 361.h,
+    final pos = LatLng(lat, lng);
 
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue),
-      ),
+    return SizedBox(
+      height: 361.h,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: Image.asset(
-          ImagesManager.map,
-          fit: BoxFit.cover,
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(target: pos, zoom: 15),
+          markers: {
+            Marker(
+              markerId: const MarkerId('event_location'),
+              position: pos,
+            ),
+          },
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
         ),
       ),
     );

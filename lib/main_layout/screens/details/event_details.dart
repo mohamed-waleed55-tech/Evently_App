@@ -1,23 +1,25 @@
 import 'package:evently/DM/eventDM.dart';
 import 'package:evently/DM/userDM.dart';
 import 'package:evently/core/resources/colors/colors_manager.dart';
-import 'package:evently/core/resources/images/images_manager.dart';
 import 'package:evently/core/utils/dialog.dart';
 import 'package:evently/extesions/getMonthNameExFun.dart';
 import 'package:evently/main_layout/screens/details/widgets/map_review.dart';
 import 'package:evently/main_layout/screens/details/widgets/map_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/resources/constant_data/constant_data.dart';
 import '../../../core/resources/routes/routes_manager.dart';
 import '../../../firebase_service/firestore/firestore_service.dart';
 import '../../../providers/config_provider.dart';
+import '../../../providers/location_map.dart';
 
 class EventDetails extends StatefulWidget {
   const EventDetails({super.key, required this.event});
 
   final EventDM event;
+  LatLng get location => LatLng(event.lat??0, event.lng??0);
 
   @override
   State<EventDetails> createState() => _EventDetailsState();
@@ -26,6 +28,7 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
   late ConfigProvider configProvider = Provider.of<ConfigProvider>(context);
 
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +36,8 @@ class _EventDetailsState extends State<EventDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var locationMapProvider = Provider.of<LocationMapProvider>(context);
+    locationMapProvider.convertLatLong(widget.location);
     final categories = ConstantManager.getCategories(context);
 
     int selectedIndex = categories.indexWhere(
@@ -123,11 +128,11 @@ class _EventDetailsState extends State<EventDetails> {
 
             const SizedBox(height: 12),
 
-            InfoCard(icon: Icons.location_on, title: "Cairo, Egypt"),
+            InfoCard(icon: Icons.location_on, title:" ${locationMapProvider.city} , ${locationMapProvider.country}"),
 
             const SizedBox(height: 16),
 
-            MapPreview(),
+           MapPreview(lat:widget.event.lat??0 ,lng:widget.event.lng??0 ,),
 
             const SizedBox(height: 16),
 

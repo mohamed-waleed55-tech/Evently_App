@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DM/CategoryDM.dart';
@@ -15,6 +16,7 @@ import '../../../extesions/getMonthNameExFun.dart';
 import '../../../firebase_service/firestore/firestore_service.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/config_provider.dart';
+import '../../../providers/location_map.dart';
 import '../../tabs/home/widgets/tab_item.dart';
 
 class UpdateEvent extends StatefulWidget {
@@ -22,11 +24,14 @@ class UpdateEvent extends StatefulWidget {
 
   final EventDM event;
 
+
   @override
   State<UpdateEvent> createState() => _UpdateEventState();
 }
 
 class _UpdateEventState extends State<UpdateEvent> {
+  LatLng get location => LatLng(widget.event.lat??0, widget.event.lng??0);
+
   int selectedIndex = 0;
   late TextEditingController titleController;
   late TextEditingController descController;
@@ -34,6 +39,9 @@ class _UpdateEventState extends State<UpdateEvent> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  LatLng? newSelectedLocation;
+  bool _initialized = false;
 
   @override
   void initState() {
@@ -45,6 +53,8 @@ class _UpdateEventState extends State<UpdateEvent> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_initialized) return;
+    _initialized = true;
 
     final categories = ConstantManager.getCategories(context);
     final current = widget.event;
@@ -66,12 +76,26 @@ class _UpdateEventState extends State<UpdateEvent> {
     super.dispose();
   }
 
+  Future<void> _pickLocation() async {
+    final result = await Navigator.pushNamed(context, RoutesManager.pickLocation);
+    if (result is LatLng) {
+      setState(() {
+        newSelectedLocation = result;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context)!;
+    var mapProvider = Provider.of<LocationMapProvider>(context);
+    mapProvider.convertLatLong(location);
+    final loc = AppLocalizations.of(context)!;
     final categories = ConstantManager.getCategories(context);
     selectedCategory = categories[selectedIndex];
-    var configProvider = Provider.of<ConfigProvider>(context);
+    final configProvider = Provider.of<ConfigProvider>(context);
+
+    final currentShownLat = newSelectedLocation?.latitude ?? widget.event.lat;
+    final currentShownLng = newSelectedLocation?.longitude ?? widget.event.lng;
 
     return Scaffold(
       appBar: AppBar(
@@ -156,7 +180,7 @@ class _UpdateEventState extends State<UpdateEvent> {
                     selectedDate.toFormattedDate,
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomTextButton(
                     title: loc.chooseDate,
                     onClick: _selectEventDate,
@@ -171,12 +195,46 @@ class _UpdateEventState extends State<UpdateEvent> {
                     selectedTime.format(context),
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomTextButton(
                     title: loc.chooseTime,
                     onClick: _selectEventTime,
                   ),
                 ],
+              ),
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.indigo),
+                ),
+                child: InkWell(
+                  onTap: _pickLocation,
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.location_on, color: Colors.white),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          '${mapProvider.city}, ${mapProvider.country}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(fontSize: 16),
+                        ),
+                      ),
+                      const Icon(Icons.arrow_forward_ios, size: 16),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 30),
               CustomElevatedButton(title: "Update Event", onClick: updateEvent),
@@ -194,14 +252,13 @@ class _UpdateEventState extends State<UpdateEvent> {
           initialTime: selectedTime,
           builder: (context, child) {
             return MediaQuery(
-              data: MediaQuery.of(
-                context,
-              ).copyWith(alwaysUse24HourFormat: false),
+              data: MediaQuery.of(context)
+                  .copyWith(alwaysUse24HourFormat: false),
               child: child!,
             );
           },
         ) ??
-        selectedTime;
+            selectedTime;
     setState(() {});
   }
 
@@ -213,7 +270,7 @@ class _UpdateEventState extends State<UpdateEvent> {
           firstDate: DateTime.now().subtract(const Duration(days: 3650)),
           lastDate: DateTime.now().add(const Duration(days: 3650)),
         ) ??
-        selectedDate;
+            selectedDate;
     setState(() {});
   }
 
@@ -232,13 +289,17 @@ class _UpdateEventState extends State<UpdateEvent> {
       category: selectedCategory.id,
       imagePath: widget.event.imagePath,
       dateTime: dateTime,
-      lat: widget.event.lat,
-      lng: widget.event.lng,
+      lat: newSelectedLocation?.latitude ?? widget.event.lat,
+      lng: newSelectedLocation?.longitude ?? widget.event.lng,
       createdById: widget.event.createdById,
     );
 
     await FirestoreService.updateEvent(updatedEvent);
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, RoutesManager.eventDetails, arguments: updatedEvent);
+    Navigator.pushReplacementNamed(
+      context,
+      RoutesManager.eventDetails,
+      arguments: updatedEvent,
+    );
   }
 }

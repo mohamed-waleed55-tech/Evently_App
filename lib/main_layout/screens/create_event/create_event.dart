@@ -7,6 +7,7 @@ import 'package:evently/extesions/getMonthNameExFun.dart';
 import 'package:evently/firebase_service/firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../DM/userDM.dart';
@@ -17,6 +18,7 @@ import '../../../core/resources/constant_data/constant_data.dart';
 import '../../../core/resources/routes/routes_manager.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/config_provider.dart';
+import '../../../providers/location_map.dart';
 import '../../tabs/home/widgets/tab_item.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -29,12 +31,13 @@ class CreateEventScreen extends StatefulWidget {
 class _CreateEventScreenState extends State<CreateEventScreen> {
   int selectedIndex = 0;
   late TextEditingController titleController;
-
   late TextEditingController descController;
 
   late CategoryDM selectedCategory;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+  LatLng? selectedLocation;
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -46,25 +49,38 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     titleController.dispose();
     descController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickLocation() async {
+    final result = await Navigator.pushNamed(
+      context,
+      RoutesManager.pickLocation,
+    );
+    if (result is LatLng) {
+      selectedLocation = result;
+      context.read<LocationMapProvider>().convertLatLong(result);
+
+      if (!mounted) return;
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context)!;
     final categories = ConstantManager.getCategories(context);
     selectedCategory = categories[selectedIndex];
-    var configProvider = Provider.of<ConfigProvider>(context);
+    final configProvider = Provider.of<ConfigProvider>(context);
+    final mapProvider = context.watch<LocationMapProvider>();
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: ColorsManager.blue),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -90,9 +106,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       : selectedCategory.darkImgPath,
                 ),
               ),
-
               const SizedBox(height: 20),
-
               SizedBox(
                 height: 40,
                 child: ListView.builder(
@@ -100,7 +114,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
                     final category = categories[index];
-
                     return Padding(
                       padding: EdgeInsets.only(right: 8.w),
                       child: CustomTabItem(
@@ -120,32 +133,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   },
                 ),
               ),
-
               SizedBox(height: 16.h),
               Text(loc.title, style: Theme.of(context).textTheme.labelSmall),
               SizedBox(height: 8.h),
-
               CustomTextFormField(
                 validator: AppValidators.validateTitle,
                 hint: loc.eventTitle,
                 prefixIcon: Icons.edit,
                 controller: titleController,
               ),
-
               SizedBox(height: 8.h),
               Text(
                 loc.description,
                 style: Theme.of(context).textTheme.labelSmall,
               ),
               SizedBox(height: 8.h),
-
               CustomTextFormField(
                 validator: AppValidators.validateDescription,
                 hint: loc.eventDesc,
                 lines: 4,
                 controller: descController,
               ),
-
               const SizedBox(height: 20),
               Row(
                 children: [
@@ -155,7 +163,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     selectedDate.toFormattedDate,
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomTextButton(
                     title: loc.chooseDate,
                     onClick: _selectEventDate,
@@ -170,48 +178,55 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     selectedTime.format(context),
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomTextButton(
                     title: loc.chooseTime,
                     onClick: _selectEventTime,
                   ),
                 ],
               ),
-
               const SizedBox(height: 20),
-
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.indigo),
                 ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(10),
+                child: InkWell(
+                  onTap: _pickLocation,
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.location_on,
+                          color: Colors.white,
+                        ),
                       ),
-                      child: const Icon(Icons.location_on, color: Colors.white),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        loc.chooseEventLocation,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelMedium?.copyWith(fontSize: 16),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          selectedLocation == null
+                              ? loc.chooseEventLocation
+                              : (mapProvider.city.isEmpty ||
+                                    mapProvider.country.isEmpty)
+                              ? '${selectedLocation!.latitude.toStringAsFixed(6)} ,  ${selectedLocation!.longitude.toStringAsFixed(6)}'
+                              : '${mapProvider.city} , ${mapProvider.country}',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.labelMedium?.copyWith(fontSize: 16),
+                        ),
                       ),
-                    ),
-                    const Icon(Icons.arrow_forward_ios, size: 16),
-                  ],
+                      const Icon(Icons.arrow_forward_ios, size: 16),
+                    ],
+                  ),
                 ),
               ),
-
               const SizedBox(height: 30),
-
               CustomElevatedButton(title: loc.addEvent, onClick: createEvent),
             ],
           ),
@@ -238,24 +253,47 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     setState(() {});
   }
 
+  void _selectEventDate() async {
+    selectedDate =
+        await showDatePicker(
+          context: context,
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
+        ) ??
+        selectedDate;
+    setState(() {});
+  }
+
   void createEvent() {
-    if (!formKey.currentState!.validate()) {
+    final loc = AppLocalizations.of(context)!;
+
+    if (!formKey.currentState!.validate()) return;
+
+    if (selectedLocation == null) {
+      DialogUtils.showMessage(
+        context,
+        message: loc.chooseEventLocation,
+        posActionTitle: "OK",
+      );
       return;
     }
+
     selectedDate = selectedDate.copyWith(
       hour: selectedTime.hour,
       minute: selectedTime.minute,
     );
-    EventDM event = EventDM(
-      title: titleController.text,
-      description: descController.text,
+
+    final event = EventDM(
+      title: titleController.text.trim(),
+      description: descController.text.trim(),
       category: selectedCategory.id,
       imagePath: "  ",
       dateTime: selectedDate,
-      lat: 22,
-      lng: 55,
+      lat: selectedLocation!.latitude,
+      lng: selectedLocation!.longitude,
       createdById: UserDM.currentUser!.id,
     );
+
     DialogUtils.showMessage(
       context,
       message: "Adding event",
@@ -263,23 +301,24 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       posAction: () {
         FirestoreService.addEvent(event);
         formKey.currentState!.reset();
+        setState(() {
+          selectedLocation = null;
+          selectedDate = DateTime.now();
+          selectedTime = TimeOfDay.now();
+        });
         if (!mounted) return;
         Navigator.pushNamed(context, RoutesManager.mainLayout);
-        DialogUtils.showMessage(context, message: "Event added successfully",posActionTitle: "OK");
+        DialogUtils.showMessage(
+          context,
+          message: "Event added successfully",
+          posActionTitle: "OK",
+          posAction: () {
+            Navigator.pop(context);
+          },
+        );
       },
       negActionTitle: "Cancel",
       negAction: () {},
     );
-  }
-
-  void _selectEventDate() async {
-    selectedDate =
-        await showDatePicker(
-          context: context,
-          firstDate: DateTime.now(),
-          lastDate: DateTime.now().add(Duration(days: 365)),
-        ) ??
-        selectedDate;
-    setState(() {});
   }
 }
