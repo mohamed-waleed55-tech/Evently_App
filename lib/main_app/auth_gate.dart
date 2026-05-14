@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../DM/userDM.dart';
-import '../authentication/signIn/signIn.dart';
-import '../firebase_service/firestore/firestore_service.dart';
-import '../main_layout/main_layout.dart';
+import '../core/firebase_service/firestore/firestore_service.dart';
+import '../features/authentication/signIn/screen/signIn.dart';
+import '../features/main_layout/main_layout/screen/main_layout.dart';
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 

@@ -1,20 +1,19 @@
 import 'package:evently/DM/eventDM.dart';
-import 'package:evently/authentication/forget_password/forget_password.dart';
-import 'package:evently/authentication/signIn/signIn.dart';
-import 'package:evently/main_layout/main_layout.dart';
-import 'package:evently/main_layout/screens/create_event/create_event.dart';
-import 'package:evently/main_layout/screens/onboarding/onboarding.dart';
-import 'package:evently/main_layout/tabs/home/home.dart';
-import 'package:evently/main_layout/tabs/love/love.dart';
-import 'package:evently/main_layout/tabs/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../../../authentication/signUp/sign_up.dart';
+import '../../../features/authentication/forget_password/forget_password.dart';
+import '../../../features/authentication/signIn/screen/signIn.dart';
+import '../../../features/authentication/signUp/sign_up.dart';
+import '../../../features/main_layout/main_layout/screen/main_layout.dart';
+import '../../../features/main_layout/screens/create_event/screen/create_event.dart';
+import '../../../features/main_layout/screens/details/screen/event_details.dart';
+import '../../../features/main_layout/screens/onboarding/onboarding.dart';
+import '../../../features/main_layout/screens/update_event/update_event.dart';
+import '../../../features/main_layout/tabs/favourite/screen/favourite.dart';
+import '../../../features/main_layout/tabs/home/screen/home.dart';
+import '../../../features/main_layout/tabs/map/screen/map.dart';
+import '../../../features/main_layout/tabs/map/widgets/pick_location.dart';
+import '../../../features/main_layout/tabs/profile/screen/profile.dart';
 import '../../../main_app/auth_gate.dart';
-import '../../../main_layout/screens/details/event_details.dart';
-import '../../../main_layout/screens/update_event/update_event.dart';
-import '../../../main_layout/tabs/map/map.dart';
-import '../../../main_layout/tabs/map/pick_location.dart';
 
 abstract final class RoutesManager {
   static const String signIn = "/signIn";
@@ -23,7 +22,7 @@ abstract final class RoutesManager {
   static const String mainLayout = "/mainLayout";
   static const String home = "/home";
   static const String map = "/map";
-  static const String love = "/love";
+  static const String love = "/favourite";
   static const String profile = "/profile";
   static const String onboarding = "/onboarding";
   static const String createEvent = "/createEvent";
@@ -46,7 +45,7 @@ abstract final class RoutesManager {
       case home:
         return CupertinoPageRoute(builder: (context) => Home());
        case love:
-        return CupertinoPageRoute(builder: (context) => Love());
+        return CupertinoPageRoute(builder: (context) => Favourite());
       case profile:
         return CupertinoPageRoute(builder: (context) => Profile());
       case createEvent:
@@ -73,6 +72,5 @@ abstract final class RoutesManager {
       default:
         return null;
     }
-    return null;
   }
 }
