@@ -1,6 +1,6 @@
 abstract final class IconsManager{
 
-  static  const String base ="lib/assets/icons";
+  static  const String base ="lib/core/assets/icons";
   static  const String add ="$base/add.svg";
   static  const String homeOutlined ="$base/home_outlined.svg";
   static  const String homeFilled ="$base/home_filled.svg";

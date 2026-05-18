@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:evently/DM/userDM.dart';
 import 'package:evently/core/resources/icons/icons_manager.dart';
 import 'package:evently/l10n/app_localizations.dart';
-import 'package:evently/features/main_layout/tabs/profile/provider/config_provider.dart';
+
+import '../../profile/provider/config_provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});

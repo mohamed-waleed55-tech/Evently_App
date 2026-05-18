@@ -3,16 +3,16 @@ import 'package:flutter/cupertino.dart';
 import '../../../features/authentication/forget_password/forget_password.dart';
 import '../../../features/authentication/signIn/screen/signIn.dart';
 import '../../../features/authentication/signUp/sign_up.dart';
-import '../../../features/main_layout/main_layout/screen/main_layout.dart';
-import '../../../features/main_layout/screens/create_event/screen/create_event.dart';
-import '../../../features/main_layout/screens/details/screen/event_details.dart';
-import '../../../features/main_layout/screens/onboarding/onboarding.dart';
-import '../../../features/main_layout/screens/update_event/update_event.dart';
-import '../../../features/main_layout/tabs/favourite/screen/favourite.dart';
-import '../../../features/main_layout/tabs/home/screen/home.dart';
-import '../../../features/main_layout/tabs/map/screen/map.dart';
-import '../../../features/main_layout/tabs/map/widgets/pick_location.dart';
-import '../../../features/main_layout/tabs/profile/screen/profile.dart';
+import '../../../features/events/create_event/screen/create_event.dart';
+import '../../../features/events/details/screen/event_details.dart';
+import '../../../features/events/onboarding/onboarding.dart';
+import '../../../features/events/update_event/update_event.dart';
+import '../../../features/main_layout/screen/main_layout.dart';
+import '../../../features/tabs/favourite/screen/favourite.dart';
+import '../../../features/tabs/home/screen/home.dart';
+import '../../../features/tabs/map/screen/map.dart';
+import '../../../features/tabs/map/widgets/pick_location.dart';
+import '../../../features/tabs/profile/screen/profile.dart';
 import '../../../main_app/auth_gate.dart';
 
 abstract final class RoutesManager {

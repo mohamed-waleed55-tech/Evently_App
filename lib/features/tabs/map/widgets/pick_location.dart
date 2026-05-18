@@ -1,9 +1,10 @@
 
 import 'package:evently/core/resources/colors/colors_manager.dart';
-import 'package:evently/features/main_layout/tabs/map/provider/location_map.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' ;
+
+import '../provider/location_map.dart';
 
 
 class PickLocation extends StatefulWidget {

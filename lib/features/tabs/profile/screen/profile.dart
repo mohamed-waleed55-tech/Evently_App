@@ -3,13 +3,13 @@ import 'package:evently/core/resources/colors/colors_manager.dart';
 import 'package:evently/core/resources/images/images_manager.dart';
 import 'package:evently/core/resources/routes/routes_manager.dart';
 import 'package:evently/core/utils/dialog.dart';
-import 'package:evently/features/main_layout/tabs/profile/provider/config_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/firebase_service/firestore/auth_service.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../provider/config_provider.dart';
 
 
 

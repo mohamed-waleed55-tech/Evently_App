@@ -1,60 +1,57 @@
 import 'package:flutter/material.dart';
 
-class CustomTextFormField extends StatefulWidget {
-  CustomTextFormField({
-    super.key,
-    this.lines=1,
-     this.label,
-     this.prefixIcon,
-    this.suffixIcon,
-    this.isSecure = false,
-    this.onClick,
-  this.hint,
-    this.controller,
-    this.validator,
-    this.onChange,
-  });
-
+class CustomTextFormField extends StatelessWidget {
   final String? label;
   final IconData? prefixIcon;
   final String? hint;
   final int lines;
-  IconData? suffixIcon;
-  bool isSecure;
-  VoidCallback? onClick;
+  final IconData? suffixIcon;
+  final bool isSecure;
+  final VoidCallback? onClick;
   final Function(String)? onChange;
   final String? Function(String?)? validator;
-  final TextEditingController?controller;
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
 
+  const CustomTextFormField({
+    super.key,
+    this.lines = 1,
+    this.label,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.isSecure = false,
+    this.onClick,
+    this.hint,
+    this.controller,
+    this.validator,
+    this.onChange,
+    this.keyboardType,
+    this.textInputAction,
+    this.autofillHints,
+  });
 
-  @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-}
-
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged:
-        widget.onChange
-      ,
-      validator: (input){
-        if(widget.validator!=null){
-          return widget.validator!(input);
-        }
-
-      },
-      controller: widget.controller,
+      onChanged: onChange,
+      validator: validator,
+      keyboardType: keyboardType ?? TextInputType.text,
+      textInputAction: textInputAction ?? TextInputAction.next,
+      autofillHints: autofillHints,
+      controller: controller,
       style: Theme.of(context).textTheme.bodyLarge,
-      obscureText: widget.isSecure,
-      maxLines: widget.lines,
+      obscureText: isSecure,
+      maxLines: lines,
       decoration: InputDecoration(
-
-        hintText: widget.hint,
-        labelStyle: Theme.of(context).textTheme.bodyLarge,
-        labelText: widget.label,
-        prefixIcon: widget.prefixIcon!=null? Icon(widget.prefixIcon):null,
-        suffixIcon: IconButton(onPressed: widget.onClick, icon: Icon(widget.suffixIcon))
+        hintText: hint,
+        labelText: label,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+        // Only show suffix icon if it's actually provided
+        suffixIcon: suffixIcon != null
+            ? IconButton(onPressed: onClick, icon: Icon(suffixIcon))
+            : null,
       ),
     );
   }

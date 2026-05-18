@@ -13,9 +13,9 @@ import '../../../../core/resources/constant_data/constant_data.dart';
 
 import '../../../../core/resources/routes/routes_manager.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../authentication/widgets/custom_elevated_button.dart';
-import '../../../authentication/widgets/custom_text_button.dart';
-import '../../../authentication/widgets/custom_text_form_field.dart';
+import '../../authentication/widgets/custom_elevated_button.dart';
+import '../../authentication/widgets/custom_text_button.dart';
+import '../../authentication/widgets/custom_text_form_field.dart';
 import '../../tabs/home/widgets/tab_item.dart';
 import '../../tabs/map/provider/location_map.dart';
 import '../../tabs/profile/provider/config_provider.dart';

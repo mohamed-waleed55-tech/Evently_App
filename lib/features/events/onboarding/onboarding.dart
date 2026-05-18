@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:evently/DM/onboarding_DM.dart';
 import 'package:evently/core/resources/images/images_manager.dart';
 import 'package:evently/core/resources/routes/routes_manager.dart';
-import 'package:evently/features/main_layout/screens/onboarding/widgets/onboarding_item.dart';
+import 'package:evently/features/events/onboarding/widgets/onboarding_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

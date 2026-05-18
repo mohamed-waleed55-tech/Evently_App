@@ -1,5 +1,5 @@
 abstract final  class ImagesManager {
-  static  const String base ="lib/assets/images";
+  static  const String base ="lib/core/assets/images";
   static const String eventlyLogo="$base/evently_logo.png";
   static const String google="$base/google1x.png";
   static const String logo="$base/splash.png";

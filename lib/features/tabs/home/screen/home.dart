@@ -35,11 +35,11 @@ class Home extends StatelessWidget {
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(26.r)),
       ),
       child: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 48),
+        padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 20.h),
         child: Column(
           children: [
             HomeHeader(),
-            SizedBox(height: 24.h),
+            SizedBox(height: 14.h),
             _buildCategoryTabs(categoriesWithAll),
           ],
         ),

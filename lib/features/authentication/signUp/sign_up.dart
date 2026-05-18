@@ -49,6 +49,7 @@ class SignUp extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
+              elevation: 0 ,
               title: Text(AppLocalizations.of(context)!.register),
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back, color: ColorsManager.blue),

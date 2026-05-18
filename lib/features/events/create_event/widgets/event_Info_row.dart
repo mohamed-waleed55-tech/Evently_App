@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:evently/core/resources/colors/colors_manager.dart';
 import 'package:evently/l10n/app_localizations.dart';
-import '../../../../authentication/widgets/custom_text_button.dart';
+import '../../../authentication/widgets/custom_text_button.dart';
 import '../../../tabs/map/provider/location_map.dart';
 import '../bloc/create_event_bloc.dart';
 

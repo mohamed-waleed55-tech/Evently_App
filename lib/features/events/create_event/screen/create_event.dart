@@ -9,13 +9,13 @@ import 'package:evently/core/resources/colors/colors_manager.dart';
 import 'package:evently/core/resources/constant_data/constant_data.dart';
 import 'package:evently/core/resources/routes/routes_manager.dart';
 import 'package:evently/l10n/app_localizations.dart';
-import 'package:evently/features/main_layout/tabs/profile/provider/config_provider.dart';
-import 'package:evently/features/main_layout/tabs/map/provider/location_map.dart';
 import '../../../../../core/app_validators/app_validators.dart';
 import '../../../../../core/extesions/getMonthNameExFun.dart';
-import '../../../../authentication/widgets/custom_elevated_button.dart';
-import '../../../../authentication/widgets/custom_text_form_field.dart';
+import '../../../authentication/widgets/custom_elevated_button.dart';
+import '../../../authentication/widgets/custom_text_form_field.dart';
 import '../../../tabs/home/widgets/tab_item.dart';
+import '../../../tabs/map/provider/location_map.dart';
+import '../../../tabs/profile/provider/config_provider.dart';
 import '../bloc/create_event_bloc.dart';
 
 

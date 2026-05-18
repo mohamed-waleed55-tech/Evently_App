@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../authentication/widgets/custom_text_form_field.dart';
+import '../../../authentication/widgets/custom_text_form_field.dart';
 import '../../home/widgets/evenItem.dart';
 import '../cubit/favourite_cubit.dart';
 class Favourite extends StatelessWidget {
@@ -18,6 +18,7 @@ class Favourite extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Favourite Events"),
           centerTitle: true,
+          elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: ColorsManager.blue),
             onPressed: () => Navigator.pop(context),
