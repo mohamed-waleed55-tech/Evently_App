@@ -1,6 +1,6 @@
 import 'package:evently/DM/eventDM.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../features/authentication/forget_password/forget_password.dart';
+import '../../../features/authentication/forget_password/screen/forget_password.dart';
 import '../../../features/authentication/signIn/screen/signIn.dart';
 import '../../../features/authentication/signUp/sign_up.dart';
 import '../../../features/events/create_event/screen/create_event.dart';
