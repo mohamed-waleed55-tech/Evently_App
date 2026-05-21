@@ -3,15 +3,17 @@ default_platform(:android)
 platform :android do
   desc "Deploy a new Beta build to Firebase App Distribution"
   lane :distribute_firebase do
-    sh("flutter clean")
-    sh("flutter pub get")
-    sh("flutter build apk --release")
-  firebase_app_distribution(
-    app: "1:412366526661:android:fb2b23a2982bc35145b8ac",
-    testers: "mowaled639@gmail.com, mohamedwaleed200155@gmail.com",
-    release_notes: "Automated Build: Deployment fixed successfully",
-    apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
-    json_key_file: "fastlane/play_store_key.json",
-    firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"]  )
+    sh("cd .. && flutter clean")
+    sh("cd .. && flutter pub get")
+    sh("cd .. && flutter build apk --release")
+
+    firebase_app_distribution(
+      app: "1:412366526661:android:fb2b23a2982bc35145b8ac",
+      testers: "mowaled639@gmail.com, mohamedwaleed200155@gmail.com",
+      release_notes: "Automated Build: Deployment fixed successfully",
+      apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
+      json_key_file: "fastlane/play_store_key.json",
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"]
+    )
   end
 end
