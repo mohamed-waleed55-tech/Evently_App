@@ -37,6 +37,12 @@ jobs:
         run: gem install fastlane
         working-directory: android
 
+      - name: Build Flutter APK
+        run: |
+          flutter clean
+          flutter pub get
+          flutter build apk --release
+
       - name: Run Fastlane Deploy
         run: |
           rm -f Gemfile.lock
