@@ -37,12 +37,13 @@ jobs:
         run: gem install fastlane
         working-directory: android
 
+      # هنا بنجبر الفلاتر يبني من جوه فولدر android ويشوف الـ lib اللي بره بوضوح
       - name: Build Flutter APK
         run: |
           flutter clean
           flutter pub get
-          flutter build apk --release
-        working-directory: .
+          flutter build apk --release -t ../lib/main.dart
+        working-directory: android
 
       - name: Run Fastlane Deploy
         run: |
