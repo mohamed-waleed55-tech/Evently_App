@@ -42,6 +42,7 @@ jobs:
           flutter clean
           flutter pub get
           flutter build apk --release
+        working-directory: .
 
       - name: Run Fastlane Deploy
         run: |
