@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class DialogUtils {
   static void showLoadingDialog(BuildContext context, String? loadingMessage) {
     showDialog(
+
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {

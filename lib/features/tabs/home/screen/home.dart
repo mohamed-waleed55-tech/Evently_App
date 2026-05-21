@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import '../../../../../core/resources/constant_data/constant_data.dart';
 import '../cubit/home_cubit.dart';
 import '../widgets/evenItem.dart';

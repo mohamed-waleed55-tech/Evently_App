@@ -8,7 +8,7 @@ class LocationMapProvider extends ChangeNotifier {
     getLocation();
   }
 
-  late GoogleMapController googleMapController;
+  late GoogleMapController? googleMapController;
   Set<Marker> markers = {};
   String country = "";
   String city = "";
@@ -72,7 +72,7 @@ class LocationMapProvider extends ChangeNotifier {
       ),
     );
 
-    googleMapController.animateCamera(
+    googleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
     );
 
@@ -112,6 +112,11 @@ class LocationMapProvider extends ChangeNotifier {
   static Future<LocationData?> getCurrentLocation() async {
     Location location = Location();
     return await location.getLocation();
+  }
+  @override
+  void dispose() {
+    googleMapController?.dispose();
+    super.dispose();
   }
 
 }

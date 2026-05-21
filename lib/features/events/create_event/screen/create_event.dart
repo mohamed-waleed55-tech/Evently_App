@@ -19,8 +19,6 @@ import '../../../tabs/profile/provider/config_provider.dart';
 import '../bloc/create_event_bloc.dart';
 
 
-
-
 import '../widgets/event_Info_row.dart';
 
 class CreateEventScreen extends StatefulWidget {
@@ -59,7 +57,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               onPressed: () => Navigator.pop(context),
             ),
             centerTitle: true,
-            title: Text(loc.createEvent, style: Theme.of(context).textTheme.labelMedium),
+            title: Text(loc.createEvent, style: Theme
+                .of(context)
+                .textTheme
+                .labelMedium),
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -115,7 +116,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
                       CustomElevatedButton(
                         title: loc.addEvent,
-                        onClick: () => _submitForm(context, state, selectedCategory.id),
+                        onClick: () =>
+                            _submitForm(context, state, selectedCategory.id),
                       ),
                     ],
                   );
@@ -134,8 +136,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       DialogUtils.showLoadingDialog(context, "Adding event...");
     } else if (state.status == CreateEventStatus.success) {
       Navigator.pop(context);
-      DialogUtils.showMessage(context, message: "Event added successfully", posActionTitle: "OK",
-          posAction: () => Navigator.pushNamedAndRemoveUntil(context, RoutesManager.mainLayout, (route) => false));
+      DialogUtils.showMessage(
+          context, message: "Event added successfully", posActionTitle: "OK",
+          posAction: () =>
+              Navigator.pushNamedAndRemoveUntil(
+              context, RoutesManager.mainLayout, (route) => false));
     } else if (state.status == CreateEventStatus.failure) {
       Navigator.pop(context);
       DialogUtils.showMessage(context, message: state.errorMessage ?? "Error");
@@ -148,18 +153,20 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(right: 8.w),
-          child: CustomTabItem(
-            categoryDM: categories[index],
-            isSelected: state.selectedIndex == index,
-            onTap: () => context.read<CreateEventBloc>().add(CategoryChanged(index)),
-            selectedBackgroundColor: ColorsManager.blue,
-            selectedContentColor: ColorsManager.offWhite,
-            unselectedContentColor: ColorsManager.blue,
-            unselectedBorderColor: ColorsManager.blue,
-          ),
-        ),
+        itemBuilder: (context, index) =>
+            Padding(
+              padding: EdgeInsets.only(right: 8.w),
+              child: CustomTabItem(
+                categoryDM: categories[index],
+                isSelected: state.selectedIndex == index,
+                onTap: () =>
+                    context.read<CreateEventBloc>().add(CategoryChanged(index)),
+                selectedBackgroundColor: ColorsManager.blue,
+                selectedContentColor: ColorsManager.offWhite,
+                unselectedContentColor: ColorsManager.blue,
+                unselectedBorderColor: ColorsManager.blue,
+              ),
+            ),
       ),
     );
   }
@@ -168,40 +175,59 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(loc.title, style: Theme.of(context).textTheme.labelSmall),
+        Text(loc.title, style: Theme
+            .of(context)
+            .textTheme
+            .labelSmall),
         SizedBox(height: 8.h),
-        CustomTextFormField(validator: AppValidators.validateTitle, hint: loc.eventTitle, prefixIcon: Icons.edit, controller: titleController),
+        CustomTextFormField(validator: AppValidators.validateTitle,
+            hint: loc.eventTitle,
+            prefixIcon: Icons.edit,
+            controller: titleController),
         SizedBox(height: 8.h),
-        Text(loc.description, style: Theme.of(context).textTheme.labelSmall),
+        Text(loc.description, style: Theme
+            .of(context)
+            .textTheme
+            .labelSmall),
         SizedBox(height: 8.h),
-        CustomTextFormField(validator: AppValidators.validateDescription, hint: loc.eventDesc, lines: 4, controller: descController),
+        CustomTextFormField(validator: AppValidators.validateDescription,
+            hint: loc.eventDesc,
+            lines: 4,
+            controller: descController),
       ],
     );
   }
 
   void _pickDate(BuildContext context, CreateEventState state) async {
-    final date = await showDatePicker(context: context, initialDate: state.selectedDate,
-        firstDate: DateTime.now(), lastDate: DateTime.now().add(const Duration(days: 365)));
+    final date = await showDatePicker(context: context,
+        initialDate: state.selectedDate,
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365)));
     if (date != null) context.read<CreateEventBloc>().add(DateChanged(date));
   }
 
   void _pickTime(BuildContext context, CreateEventState state) async {
-    final time = await showTimePicker(context: context, initialTime: state.selectedTime);
+    final time = await showTimePicker(
+        context: context, initialTime: state.selectedTime);
     if (time != null) context.read<CreateEventBloc>().add(TimeChanged(time));
   }
 
   void _pickLocation(BuildContext context) async {
-    final result = await Navigator.pushNamed(context, RoutesManager.pickLocation);
+    final result = await Navigator.pushNamed(
+        context, RoutesManager.pickLocation);
     if (result is LatLng) {
       context.read<CreateEventBloc>().add(LocationPicked(result));
       context.read<LocationMapProvider>().convertLatLong(result);
     }
   }
 
-  void _submitForm(BuildContext context, CreateEventState state, String categoryId) {
+  void _submitForm(BuildContext context, CreateEventState state,
+      String categoryId) {
     if (formKey.currentState!.validate()) {
       if (state.selectedLocation == null) {
-        DialogUtils.showMessage(context, message: AppLocalizations.of(context)!.chooseEventLocation, posActionTitle: "OK");
+        DialogUtils.showMessage(
+            context, message: AppLocalizations.of(context)!.chooseEventLocation,
+            posActionTitle: "OK");
         return;
       }
       context.read<CreateEventBloc>().add(SubmitEventRequested(
