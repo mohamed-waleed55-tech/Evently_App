@@ -41,7 +41,7 @@ jobs:
       - name: Run Fastlane Deploy
         run: |
           echo '${{ secrets.PLAY_STORE_KEY_JSON }}' > fastlane/play_store_key.json
-          
+          gem install bundler
           bundle exec fastlane distribute
         working-directory: android
         env:
