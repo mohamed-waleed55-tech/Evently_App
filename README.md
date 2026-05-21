@@ -74,20 +74,6 @@ An architectural breakdown of the data stream, remote API interfaces, state dist
 * **Location APIs:** Google Maps SDK, Geolocation & Geocoding Packages
 * **UI & Core Utils:** Responsive design layout structures, Native Splash, Theming Extensions, Multi-lingual Localization Nodes
 
----
 
-## 📂 Project Structure
 
-```text
-lib/
-│
-├── core/                  # Shared configurations, network logic, base themes, and localization
-│   ├── theme/             # Light & Dark configuration nodes
-│   ├── utils/             # Reusable helper extensions and validation logic
-│   └── localization/      # Multi-lingual asset configurations
-│
-└── features/              # Feature-driven modular layout (Clean Architecture style)
-    ├── auth/              # Authentication & Session Management
-    ├── events/            # Core Event management, creation, and details
-    ├── map/               # Google Maps integration & custom pinning logic
-    └── profile/           # User configuration nodes & persistent settings
+
