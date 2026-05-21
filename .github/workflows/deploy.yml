@@ -33,16 +33,14 @@ jobs:
           ruby-version: '3.0'
           bundler-cache: true
 
-      - name: Install Fastlane
-        run: gem install fastlane
-        working-directory: android
-
-      # هنا بنجبر الفلاتر يبني من جوه فولدر android ويشوف الـ lib اللي بره بوضوح
       - name: Build Flutter APK
         run: |
           flutter clean
           flutter pub get
-          flutter build apk --release -t ../lib/main.dart
+          flutter build apk --release
+
+      - name: Install Fastlane
+        run: gem install fastlane
         working-directory: android
 
       - name: Run Fastlane Deploy
