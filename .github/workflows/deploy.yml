@@ -19,7 +19,6 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -41,8 +40,10 @@ jobs:
       - name: Run Fastlane Deploy
         run: |
           echo '${{ secrets.PLAY_STORE_KEY_JSON }}' > fastlane/play_store_key.json
-          gem install bundler
-          bundle exec fastlane distribute
+          
+          bundle update --bundler
+          
+          bundle exec fastlane distribute_firebase
         working-directory: android
         env:
           FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
