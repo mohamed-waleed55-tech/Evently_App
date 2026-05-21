@@ -46,7 +46,6 @@ jobs:
       - name: Run Fastlane Deploy
         run: |
           rm -f Gemfile.lock
-          echo '${{ secrets.PLAY_STORE_KEY_JSON }}' > fastlane/play_store_key.json
           bundle install
           bundle exec fastlane distribute_firebase
         working-directory: android
