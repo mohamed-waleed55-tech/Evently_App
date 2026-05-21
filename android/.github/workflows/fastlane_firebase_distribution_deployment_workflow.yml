@@ -1,0 +1,49 @@
+name: Flutter CI/CD with Fastlane
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: gem install fastlane
+        working-directory: android
+
+      - name: Run Fastlane Deploy
+        run: |
+          echo '${{ secrets.PLAY_STORE_KEY_JSON }}' > fastlane/play_store_key.json
+          
+          bundle exec fastlane distribute
+        working-directory: android
+        env:
+          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+          PLAY_STORE_KEY_JSON: ${{ secrets.PLAY_STORE_KEY_JSON }}

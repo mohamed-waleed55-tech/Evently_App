@@ -11,7 +11,7 @@ platform :android do
     testers: "mowaled639@gmail.com, mohamedwaleed200155@gmail.com",
     release_notes: "Automated Build: Deployment fixed successfully",
     apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
-    firebase_cli_token: "1//03U6x-GHrPAxhCgYIARAAGAMSNwF-L9IrgkhS-JQvw6Ks6gB2Y3oOmOMSj7_rAum5e_9DekhO8Fm80FUCDRJpJRCusrwgoaJ54ow"
-  )
+    json_key_file: "fastlane/play_store_key.json",
+    firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"]  )
   end
 end
