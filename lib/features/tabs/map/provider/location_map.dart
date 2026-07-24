@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,38 +9,36 @@ class LocationMapProvider extends ChangeNotifier {
     getLocation();
   }
 
-  late GoogleMapController? googleMapController;
+  GoogleMapController? googleMapController;
+  
+  StreamSubscription<LocationData>? _locationSubscription;
+
   Set<Marker> markers = {};
   String country = "";
   String city = "";
 
-  static CameraPosition cameraPosition = CameraPosition(
+  static CameraPosition cameraPosition = const CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+  
   Location location = Location();
   String locationMessage = "";
 
   Future<void> getLocation() async {
     bool permissionGranted = await _getLocationPermission();
-    if (!permissionGranted) {
-      return;
-    }
-    bool serviceEnabled = await _checkLocationService();
+    if (!permissionGranted) return;
 
-    if (!serviceEnabled) {
-      return;
-    }
+    bool serviceEnabled = await _checkLocationService();
+    if (!serviceEnabled) return;
+
     LocationData locationData = await location.getLocation();
     changeLocation(locationData);
     setLocationListener();
-
-    notifyListeners();
   }
 
   Future<bool> _getLocationPermission() async {
-    PermissionStatus permissionStatus;
-    permissionStatus = await location.hasPermission();
+    PermissionStatus permissionStatus = await location.hasPermission();
     if (permissionStatus == PermissionStatus.denied) {
       permissionStatus = await location.requestPermission();
     }
@@ -53,39 +52,45 @@ class LocationMapProvider extends ChangeNotifier {
     }
     return serviceEnabled;
   }
-  void changeLocation(LocationData locationData){
+
+  void changeLocation(LocationData locationData) {
     cameraPosition = CameraPosition(
       target: LatLng(locationData.latitude ?? 0, locationData.longitude ?? 0),
       zoom: 14.4746,
     );
-    markers.add(
+
+    markers = {
       Marker(
-        markerId: MarkerId("currentLocation"),
+        markerId: const MarkerId("currentLocation"),
         position: LatLng(
           locationData.latitude ?? 0,
           locationData.longitude ?? 0,
         ),
-        infoWindow: InfoWindow(
+        infoWindow: const InfoWindow(
           title: "Current Location",
-          snippet: "Your are here",
+          snippet: "You are here",
         ),
       ),
-    );
+    };
 
+    // ✅ الآن أصبح الآمان تاماً: إذا لم تكتمل تهيئة الـ Controller فلن يحدث Crash
     googleMapController?.animateCamera(
       CameraUpdate.newCameraPosition(cameraPosition),
     );
 
+    notifyListeners(); // تم نقلها هنا لتحديث الـ UI بالـ Markers و الكاميرا
   }
+
   void setLocationListener() {
     location.changeSettings(
       accuracy: LocationAccuracy.high,
       interval: 1000,
     );
-    location.onLocationChanged.listen((LocationData currentLocation) {
+    
+    // حفظ الاشتراك في متغير للإلغاء لاحقاً
+    _locationSubscription = location.onLocationChanged.listen((LocationData currentLocation) {
       changeLocation(currentLocation);
     });
-    notifyListeners();
   }
 
   Future<void> convertLatLong(LatLng latLng) async {
@@ -96,8 +101,8 @@ class LocationMapProvider extends ChangeNotifier {
       );
 
       if (placemarks.isNotEmpty) {
-         country = placemarks.first.country ?? 'Cannot find country';
-         city = placemarks.first.locality ?? 'Cannot find city';
+        country = placemarks.first.country ?? 'Cannot find country';
+        city = placemarks.first.locality ?? 'Cannot find city';
       } else {
         country = 'Cannot find country';
         city = 'Cannot find city';
@@ -109,14 +114,16 @@ class LocationMapProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
   static Future<LocationData?> getCurrentLocation() async {
     Location location = Location();
     return await location.getLocation();
   }
+
   @override
   void dispose() {
+    _locationSubscription?.cancel(); 
     googleMapController?.dispose();
     super.dispose();
   }
-
 }

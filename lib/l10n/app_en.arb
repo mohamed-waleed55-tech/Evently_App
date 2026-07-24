@@ -38,15 +38,17 @@
   "holiday": "Holiday",
   "eating": "Eating",
   "exhibition": "Exhibition",
+
   "title": "Title",
-    "eventTitle": "Event Title",
-    "description": "Description",
-    "eventDesc": "Event Description",
-    "chooseDate": "Choose Date",
-    "eventDate": "Event Date",
-    "chooseTime": "Choose Time",
-    "eventTime": "Event Time",
-    "chooseEventLocation": "Choose Event Location",
-    "addEvent": "Add Event",
-    "createEvent": "Create Event"
+  "eventTitle": "Event Title",
+  "description": "Description",
+  "eventDesc": "Event Description",
+  "chooseDate": "Choose Date",
+  "eventDate": "Event Date",
+  "chooseTime": "Choose Time",
+  "eventTime": "Event Time",
+  "chooseEventLocation": "Choose Event Location",
+  "addEvent": "Add Event",
+  "createEvent": "Create Event",
+  "updateEvent": "Update Event"
 }

@@ -2,7 +2,8 @@ abstract final  class ImagesManager {
   static  const String base ="lib/core/assets/images";
   static const String eventlyLogo="$base/evently_logo.png";
   static const String google="$base/google1x.png";
-  static const String logo="$base/splash.png";
+  static const String lightLogo="$base/light_logo.png";
+  static const String darkLogo="$base/dark_logo.png";
   static const String holiday="$base/holiday.png";
   static const String meeting="$base/meeting.png";
   static const String exhibition="$base/exhibition.png";
@@ -13,7 +14,6 @@ abstract final  class ImagesManager {
   static const String birthday="$base/birthday.png";
   static const String bookClub="$base/BookClub.png";
   static const String forgetPassword="$base/forget_password.png";
-  static const String routeLogo="$base/route1x.png";
   static const String onboarding1="$base/onboarding1.png";
   static const String onboarding2="$base/onboarding2.png";
   static const String onboarding3="$base/onboarding3.png";

@@ -139,4 +139,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createEvent => 'Create Event';
+
+  @override
+  String get updateEvent => 'Update Event';
 }

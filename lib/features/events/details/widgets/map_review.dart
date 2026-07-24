@@ -19,8 +19,9 @@ class MapPreview extends StatelessWidget {
     return SizedBox(
       height: 361.h,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         child: GoogleMap(
+          key: ValueKey('$lat-$lng'),
           initialCameraPosition: CameraPosition(target: pos, zoom: 15),
           markers: {
             Marker(
@@ -30,6 +31,13 @@ class MapPreview extends StatelessWidget {
           },
           zoomControlsEnabled: false,
           myLocationButtonEnabled: false,
+          myLocationEnabled: false,
+          compassEnabled: false,
+          mapToolbarEnabled: false,
+          rotateGesturesEnabled: false,
+          scrollGesturesEnabled: false,
+          zoomGesturesEnabled: false,
+          tiltGesturesEnabled: false,
         ),
       ),
     );

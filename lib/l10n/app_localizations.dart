@@ -361,6 +361,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Event'**
   String get createEvent;
+
+  /// No description provided for @updateEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Event'**
+  String get updateEvent;
 }
 
 class _AppLocalizationsDelegate

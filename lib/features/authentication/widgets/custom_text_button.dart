@@ -38,7 +38,6 @@ class CustomTextButton extends StatelessWidget {
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline, // اختيار اختياري لتمييزه كزرار
             ),
           ),
         )

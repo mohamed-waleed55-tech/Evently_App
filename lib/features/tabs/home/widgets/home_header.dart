@@ -1,126 +1,163 @@
+import 'package:evently/features/tabs/home/widgets/compact_toggles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:evently/DM/userDM.dart';
 import 'package:evently/core/resources/icons/icons_manager.dart';
 import 'package:evently/l10n/app_localizations.dart';
-
-import '../../profile/provider/config_provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final configProvider = context.watch<ConfigProvider>();
     final loc = AppLocalizations.of(context)!;
+    final primaryColor = Theme.of(context).colorScheme.primary;
 
-    return Container(
-      padding: REdgeInsets.symmetric(horizontal: 16.0, vertical: 48),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(26.r),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return SizedBox(
+      height: 195.h,
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${loc.welcome_back} ✨",
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                    ),
+          Container(
+            width: double.infinity,
+            height: 160.h,
+            padding: REdgeInsets.only(left: 20, right: 20, top: 52),
+            decoration: BoxDecoration(
+              color: primaryColor,
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(36.r),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: REdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Text(
+                              "${loc.welcome_back} 👋",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        UserDM.currentUser?.name ?? "Guest",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    UserDM.currentUser?.name ?? "Guest",
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                ),
+                const CompactToggles(),
+              ],
+            ),
+          ),
+
+          Positioned(
+            bottom: 0,
+            left: 20.w,
+            right: 20.w,
+            child: Container(
+              padding: REdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(20.r),
+                // إضافة ה-Border باللون الأساسي للثيم
+                border: Border.all(
+                  color: primaryColor,
+                  width: 1.5,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 15,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
-              _buildToggles(configProvider),
-            ],
-          ),
-
-          SizedBox(height: 8.h),
-
-          Row(
-            children: [
-              SvgPicture.asset(IconsManager.mapOutlined, color: Colors.white),
-              SizedBox(width: 6.w),
-              Text(
-                "Cairo, Egypt",
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                    fontSize: 16.sp
-                ),
+              child: Row(
+                children: [
+                  // Location Icon Container
+                  Container(
+                    padding: REdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: primaryColor.withValues(alpha: 0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: SvgPicture.asset(
+                      IconsManager.mapOutlined,
+                      width: 18.w,
+                      height: 18.h,
+                      colorFilter: ColorFilter.mode(
+                        primaryColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Current Location",
+                          style: TextStyle(
+                            fontSize: 10.sp,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 1.h),
+                        Text(
+                          "Cairo, Egypt",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: primaryColor,
+                    size: 22.sp,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildToggles(ConfigProvider configProvider) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => configProvider.changeTheme(
-            configProvider.isLight ? ThemeMode.dark : ThemeMode.light,
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              configProvider.isLight
-                  ? Icons.wb_sunny_outlined
-                  : Icons.dark_mode_outlined,
-              color: Colors.white,
-              size: 24,
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
-
-        GestureDetector(
-          onTap: () => configProvider.changeLang(
-            configProvider.isEnglish ? "ar" : "en",
-          ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Text(
-              configProvider.isEnglish ? "En" : "Ar",
-              style: const TextStyle(
-                color: Colors.indigo,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

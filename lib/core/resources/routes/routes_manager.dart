@@ -1,22 +1,23 @@
 import 'package:evently/DM/eventDM.dart';
+import 'package:evently/features/tabs/home/screen/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import '../../../features/authentication/forget_password/screen/forget_password.dart';
-import '../../../features/authentication/signIn/screen/signIn.dart';
+import '../../../features/authentication/signIn/screen/sign_in_screen.dart';
 import '../../../features/authentication/signUp/sign_up.dart';
 import '../../../features/events/create_event/screen/create_event.dart';
 import '../../../features/events/details/screen/event_details.dart';
 import '../../../features/events/onboarding/onboarding.dart';
-import '../../../features/events/update_event/update_event.dart';
+import '../../../features/events/update_event/screen/update_event.dart';
 import '../../../features/main_layout/screen/main_layout.dart';
 import '../../../features/tabs/favourite/screen/favourite.dart';
-import '../../../features/tabs/home/screen/home.dart';
 import '../../../features/tabs/map/provider/location_map.dart';
 import '../../../features/tabs/map/screen/map.dart';
 import '../../../features/tabs/map/widgets/pick_location.dart';
 import '../../../features/tabs/profile/provider/config_provider.dart';
 import '../../../features/tabs/profile/screen/profile.dart';
 import '../../../main_app/auth_gate.dart';
+
 
 abstract final class RoutesManager {
   static const String signIn = "/signIn";
@@ -45,50 +46,61 @@ abstract final class RoutesManager {
       case mainLayout:
         return CupertinoPageRoute(builder: (context) => MainLayout());
       case home:
-        return CupertinoPageRoute(builder: (context) => Home());
+        return CupertinoPageRoute(builder: (context) => HomeView());
       case love:
         return CupertinoPageRoute(builder: (context) => Favourite());
       case profile:
         return CupertinoPageRoute(
           builder: (context) => ChangeNotifierProvider(
-            create: (BuildContext context) {
-              return ConfigProvider();
-            },
+            create: (BuildContext context) => ConfigProvider(),
             child: Profile(),
           ),
         );
       case createEvent:
-        return CupertinoPageRoute(builder: (context) => CreateEventScreen());
+        return CupertinoPageRoute(
+          builder: (context) => ChangeNotifierProvider(
+            create: (BuildContext context) => LocationMapProvider(),
+            child: CreateEventScreen(),
+          ),
+        );
       case onboarding:
         return CupertinoPageRoute(builder: (context) => Onboarding());
 
       case authGate:
         return CupertinoPageRoute(builder: (context) => AuthGate());
-      case map:
-        return CupertinoPageRoute(
-          builder: (context) => ChangeNotifierProvider(
-            create: (BuildContext context) {
-              return LocationMapProvider();
-            },
-            child: GoogleMap(),
-          ),
-        );
+case map:
+  return CupertinoPageRoute(
+    builder: (context) => ChangeNotifierProvider(
+      create: (context) => LocationMapProvider(),
+      child: EventMapView(event: null,
+      ),
+    ),
+  );
+
       case eventDetails:
         final event = settings.arguments as EventDM;
         return CupertinoPageRoute(
-          builder: (context) => EventDetails(event: event),
+          builder: (context) => ChangeNotifierProvider(
+            create: (context) => LocationMapProvider(),
+            child: EventDetails(event: event),
+          ),
         );
-      case updateEvent:
-        final event = settings.arguments as EventDM;
-        return CupertinoPageRoute(
-          builder: (context) => UpdateEvent(event: event),
-        );
+
+
+        case updateEvent:
+  final event = settings.arguments as EventDM;
+  return CupertinoPageRoute(
+    builder: (context) => ChangeNotifierProvider(
+      create: (_) => LocationMapProvider(),
+      child: UpdateEvent(event: event),
+    ),
+  );
+
+    
       case pickLocation:
         return CupertinoPageRoute(
           builder: (context) => ChangeNotifierProvider(
-            create: (BuildContext context) {
-              return LocationMapProvider();
-            },
+            create: (BuildContext context) => LocationMapProvider(),
             child: PickLocation(),
           ),
         );

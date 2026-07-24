@@ -15,13 +15,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get password => 'كلمة المرور';
 
   @override
-  String get forget_password => 'نسيت كلمة المرور';
+  String get forget_password => 'هل نسيت كلمة المرور؟';
 
   @override
   String get login => 'تسجيل الدخول';
 
   @override
-  String get dont_have_account => ' ليس لديك حساب؟';
+  String get dont_have_account => 'ليس لديك حساب؟ ';
 
   @override
   String get create_account => 'إنشاء حساب';
@@ -30,28 +30,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get or => 'أو';
 
   @override
-  String get login_with_google => 'تسجيل الدخول بجوجل ';
+  String get login_with_google => 'تسجيل الدخول بواسطة جوجل';
 
   @override
-  String get login_with_facebook => 'تسجيل الدخول بفيسبوك ';
+  String get login_with_facebook => 'تسجيل الدخول بواسطة فيسبوك';
 
   @override
-  String get register => 'تسجيل';
+  String get register => 'إنشاء حساب جديد';
 
   @override
   String get name => 'الاسم';
 
   @override
-  String get re_password => 'إعادة كلمة المرور';
+  String get re_password => 'تأكيد كلمة المرور';
 
   @override
-  String get already_have_account => ' لديك حساب بالفعل؟';
+  String get already_have_account => 'لديك حساب بالفعل؟ ';
 
   @override
-  String get reset_password => 'إعادة تعيين كلمة المرور';
+  String get reset_password => 'إعادة ضبط كلمة المرور';
 
   @override
-  String get welcome_back => 'مرحبًا بعودتك';
+  String get welcome_back => 'مرحباً بعودتك';
 
   @override
   String get home => 'الرئيسية';
@@ -66,7 +66,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile => 'الملف الشخصي';
 
   @override
-  String get search_for_event => 'ابحث عن حدث';
+  String get search_for_event => 'البحث عن مناسبة';
 
   @override
   String get language => 'اللغة';
@@ -90,7 +90,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get meeting => 'اجتماع';
 
   @override
-  String get book_club => 'نادي الكتب';
+  String get book_club => 'نادي الكتاب';
 
   @override
   String get workshop => 'ورشة عمل';
@@ -111,32 +111,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String get title => 'العنوان';
 
   @override
-  String get eventTitle => 'عنوان الحدث';
+  String get eventTitle => 'عنوان المناسبة';
 
   @override
   String get description => 'الوصف';
 
   @override
-  String get eventDesc => 'وصف الحدث';
+  String get eventDesc => 'وصف المناسبة';
 
   @override
   String get chooseDate => 'اختر التاريخ';
 
   @override
-  String get eventDate => 'تاريخ الحدث';
+  String get eventDate => 'تاريخ المناسبة';
 
   @override
   String get chooseTime => 'اختر الوقت';
 
   @override
-  String get eventTime => 'وقت الحدث';
+  String get eventTime => 'وقت المناسبة';
 
   @override
-  String get chooseEventLocation => 'اختر موقع الحدث';
+  String get chooseEventLocation => 'اختر موقع المناسبة';
 
   @override
-  String get addEvent => 'إضافة حدث';
+  String get addEvent => 'إضافة مناسبة';
 
   @override
-  String get createEvent => 'إنشاء حدث';
+  String get createEvent => 'إنشاء مناسبة';
+
+  @override
+  String get updateEvent => 'تعديل المناسبة';
 }

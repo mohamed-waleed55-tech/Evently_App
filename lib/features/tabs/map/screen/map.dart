@@ -1,44 +1,57 @@
-import 'package:evently/core/resources/colors/colors_manager.dart';
+import 'package:evently/DM/eventDM.dart';
+import 'package:evently/features/events/details/widgets/event_details_card.dart';
+import 'package:evently/features/tabs/map/provider/location_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/location_map.dart';
+class EventMapView extends StatelessWidget {
+  final EventDM? event;
 
-class GoogleMap extends StatelessWidget {
-  const GoogleMap({super.key});
+  const EventMapView({
+    super.key,
+    this.event,
+  });
+
+  static const LatLng _defaultLocation = LatLng(30.0444, 31.2357);
 
   @override
   Widget build(BuildContext context) {
-    final locationMapProvider = context.watch<LocationMapProvider>();
+    final initialTarget = (event?.lat != null && event?.lng != null)
+        ? LatLng(event!.lat!, event!.lng!)
+        : _defaultLocation;
 
-    return Scaffold(
-      floatingActionButton: Padding(
-        padding:  REdgeInsets.all(16.0),
-        child: FloatingActionButton(onPressed: (){
-          locationMapProvider.getLocation();
-        },backgroundColor: ColorsManager.blue,foregroundColor: Colors.white,
-          child: Icon(Icons.my_location),),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+    return ChangeNotifierProvider(
+      create: (_) => LocationMapProvider(),
+      child: Scaffold(
+        body: Consumer<LocationMapProvider>(
+          builder: (context, provider, child) {
+            return Stack(
+              children: [
+                GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: initialTarget,
+                    zoom: 14.5,
+                  ),
+                  markers: provider.markers,
+                  onMapCreated: (controller) {
+                    provider.googleMapController = controller;
+                  },
+                ),
 
-      body: Column(
-        children: [
-          Expanded(
-            child: gmap.GoogleMap(
-              initialCameraPosition: LocationMapProvider.cameraPosition,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              onMapCreated: (controller) {
-                locationMapProvider.googleMapController =controller;
-                locationMapProvider.getLocation();
-              },
-              markers: locationMapProvider.markers,
-              mapType: gmap.MapType.normal ,
-            ),
-          ),
-        ],
+                if (event != null)
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 24,
+                    child: EventDetailsCard(
+                      event: event,
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

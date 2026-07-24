@@ -5,7 +5,6 @@ import 'package:evently/core/resources/colors/colors_manager.dart';
 import 'package:evently/l10n/app_localizations.dart';
 import '../../../authentication/widgets/custom_text_button.dart';
 import '../../../tabs/map/provider/location_map.dart';
-import '../bloc/create_event_bloc.dart';
 
 class EventInfoRow extends StatelessWidget {
   final IconData icon;
