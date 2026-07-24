@@ -21,24 +21,7 @@
 
 Here is a full visual walkthrough of the platform's core features, user interface components, and dynamic event management workflows.
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/e65a5063-a46a-43b5-93d3-b0892365bffa" alt="Splash Screen" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/01c27aa6-73fc-472b-987f-2017b576dc90" alt="Login Screen" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/75d6556d-9320-4b53-95a5-abdba459ef8c" alt="Register Screen" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/a08c1790-4c4b-4292-9bd1-607f1d507345" alt="Forget Password" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/c5ab4da0-dcd1-4be3-ac45-d862ce693aa9" alt="Home Dashboard" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-</div>
-
-<br>
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/3f5f8dfb-c8c6-4c11-93b9-707d9fb87048" alt="Map Feature Filtering" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/6a4e5615-f215-41a9-8337-16f0ed1c6e18" alt="Map View" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/a63444d1-e35a-4d60-a201-0fec1abdd469" alt="Favorites Screen" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/e214a070-4556-4d08-a95b-997e46c59d68" alt="Profile Layout" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-  <img src="https://github.com/user-attachments/assets/1d461fe5-47af-448c-bc78-c575e5659cd7" alt="Profile Settings Light" width="18%" style="margin: 0.5%; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-</div>
-
+https://github.com/user-attachments/assets/86bdca2b-08ac-40d0-a9d6-84d74a99cfd9
 ---
 
 ## 📐 System Design & Blueprint
