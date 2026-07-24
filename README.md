@@ -8,7 +8,11 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bc70ebb9-f5c9-4d91-b6f4-1283e23521f0" alt="Evently App Official Poster" width="65%" style="border-radius: 14px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: transform 0.3s;" />
+  <img
+    src="https://github.com/user-attachments/assets/43326722-d566-4a7a-ab68-4767af36ed81"
+    alt="Eventra Official Poster"
+    width="65%"
+  />
 </p>
 
 <p align="center">
