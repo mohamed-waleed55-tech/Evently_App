@@ -17,13 +17,11 @@
 
 ---
 
-## 📱 Application Demo & Screenshots
+## 🎥 App Demo
 
 Here is a full visual walkthrough of the platform's core features, user interface components, and dynamic event management workflows.
 
-https://github.com/user-attachments/assets/86bdca2b-08ac-40d0-a9d6-84d74a99cfd9
----
-
+[![Watch Eventra Demo](poster.png)](https://github.com/user-attachments/assets/86bdca2b-08ac-40d0-a9d6-84d74a99cfd9)
 ## 📐 System Design & Blueprint
 
 An architectural breakdown of the data stream, remote API interfaces, state distribution loops, and system components. This blueprint illustrates the single-directional data flow and component decoupling within the platform.
